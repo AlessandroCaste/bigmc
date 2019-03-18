@@ -27,6 +27,7 @@ using namespace std;
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <cstring>
 
 #include <globals.h>
 #include <parsenode.h>
@@ -203,6 +204,17 @@ bool namenode::is_valid() {
 vector<parsenode *> namenode::get_children() {
 	vector<parsenode *> v;
 	return v;
+}
+
+// VARNODE
+
+variablenode::variablenode(char *id) {
+	rme = id;
+	type = NODE_VARIABLE;
+}
+
+string variablenode::to_string(){
+	return string(rme); 
 }
 
 // HOLE 

@@ -35,6 +35,7 @@ map<string,control> bigraph::control_map;
 map<control,bool> bigraph::activity_map;
 map<control,int> bigraph::arity_map;
 set<name> bigraph::names;
+set<string> bigraph::names_string;
 
 bigraph::bigraph(int roots) {
 	root = NULL;
@@ -62,15 +63,20 @@ control bigraph::control_from_string(string n) {
 name bigraph::name_from_string(string n) {
 	if(n == "") return 0;
 
-	map<string,name>::iterator it;
-	it = bigraph::name_map.find(n);
-	if(it == bigraph::name_map.end()) {
-		// No such element, insert a new one
-		name fresh = bigraph::u_name++;
-		bigraph::name_map[n] = fresh;
-		return fresh;
+	if(names_string.count(n) > 0) {
+		map<string,name>::iterator it;
+		it = bigraph::name_map.find(n);
+		if(it == bigraph::name_map.end()) {
+			// No such element, insert a new one
+			name fresh = bigraph::u_name++;
+			bigraph::name_map[n] = fresh;
+			return fresh;
+		} else {
+			return bigraph::name_map[n];
+		}
 	} else {
-		return bigraph::name_map[n];
+		rerror("bigraph::name_from_string") << "Ports in reaction rules must be scoped variables or declared names" << endl;
+		exit(1);
 	}
 }
 
@@ -89,14 +95,16 @@ control bigraph::add_control(string n, bool act, int ar) {
 	return f;
 }
 
-void bigraph::add_outer_name(name n) {
-	outer.insert(n);
-	names.insert(n);
+void bigraph::add_outer_name(string n,name nm) {
+	names_string.insert(n);
+	outer.insert(nm);
+	names.insert(nm);
 }
 
-void bigraph::add_inner_name(name n) {
-	inner.insert(n);
-	names.insert(n);
+void bigraph::add_inner_name(string n, name nm) {
+	names_string.insert(n);
+	inner.insert(nm);
+	names.insert(nm);
 }
 
 void bigraph::set_root(term *n) {

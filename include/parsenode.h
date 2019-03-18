@@ -26,6 +26,7 @@
 #define NODE_PREFIX 1
 #define NODE_PARALLEL 2
 #define NODE_REACTION 4
+#define NODE_VARIABLE 5
 #define NODE_NAME 8
 #define NODE_HOLE 16
 #define NODE_SEQ 32
@@ -55,7 +56,7 @@ class parsenode {
 	int filepos;
 public:
 	int type;
-	parsenode();
+	parsenode(); 
 	virtual ~parsenode();
 	virtual string to_string();
 	virtual bool is_valid();
@@ -72,6 +73,14 @@ public:
 	bool is_valid();
 	vector<parsenode *> get_children();
 };
+
+class variablenode : public parsenode {
+	public:
+		char *rme;
+		variablenode(char *id);
+		string to_string();
+};
+
 
 class controlnode : public parsenode {
 public:
@@ -130,8 +139,6 @@ public:
 	bool is_valid();
 	vector<parsenode *> get_children();
 };
-
-
 
 class holenode : public parsenode {
 public:

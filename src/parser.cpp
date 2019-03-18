@@ -334,6 +334,11 @@ vector<name> parser::bg_names(parsenode *p) {
 		}
 		case NODE_SEQ: {
 			return bg_names((seqnode *) p);
+		} case NODE_VARIABLE: {
+			vector<name> v;
+			name nm = bigraph::name_from_string(((variablenode *)p)->to_string());
+			v.push_back(nm);
+			return v;		 
 		}
 		default:
 			cerr << "BUG: Invalid name: " << p->to_string() << endl;
@@ -475,9 +480,9 @@ bigraph *parser::finish() {
 				string n = ((namenode *)t->name)->to_string();
 				name nm = b->name_from_string(n);
 				if(t->outer)
-					b->add_outer_name(nm);
+					b->add_outer_name(n,nm);
 				else
-					b->add_inner_name(nm);
+					b->add_inner_name(n,nm);
 				break;
 			}
 			case NODE_SIGNATURE: {

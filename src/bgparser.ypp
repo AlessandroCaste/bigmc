@@ -50,9 +50,9 @@ char *numtostr(int i) {
 %token INNER OUTER DPAR UNLINKED RULE IMPORT
 %token ACTIVE PASSIVE COLON HOLE IDENT NUM
 %token PROPERTY LAND LOR LNOT FORALL EXISTS NIL
-%token LEQ GEQ LT GT EQ NEQ DOLLAR BTRUE BFALSE IF THEN ELSE
+%token LEQ GEQ LT GT EQ NEQ DOLLAR VARIABLE BTRUE BFALSE IF THEN ELSE
 
-%type <node> model dec reaction exp expel property
+%type <node> model dec reaction exp expel property 
 %type <node> prefix names propexp propatom proplist proplistel
 %type <value> NUM
 %type <ident> HOLE IDENT
@@ -107,6 +107,8 @@ prefix
 names
 : IDENT COMMA names		{ $$ = new seqnode(new namenode($1),$3); }
 | UNLINKED COMMA names		{ $$ = new seqnode(new namenode(""),$3); }
+| VARIABLE IDENT names	{$$ = new seqnode(new variablenode($2),$3);}
+| VARIABLE IDENT		{$$ = new variablenode($2); }
 | IDENT				{ $$ = new namenode($1); }
 | UNLINKED			{ $$ = new namenode(""); }
 ;

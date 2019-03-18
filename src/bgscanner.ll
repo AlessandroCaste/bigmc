@@ -141,6 +141,7 @@ IDENTR	[a-zA-Z0-9_]
 "#"		  { BEGIN COMMENT; }
 "-"		  { return UNLINKED; }
 "nil"		  { return NIL; }
+"@"     { return VARIABLE; }
 
 {DIGIT}+	 {
 		    std::istringstream(yytext) >> yylval.value;

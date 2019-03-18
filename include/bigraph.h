@@ -36,6 +36,7 @@ public:
 	static map<control,bool> activity_map;
 	static map<control,int> arity_map;
 	static set<name> names;
+	static set<string> names_string;
 	static control u_control;
 	static name u_name;
 	bigraph(int roots);
@@ -51,8 +52,8 @@ public:
 	static bool activity(control c);
 	static int arity(control c);
 	static control add_control(string n, bool act, int ar);
-	void add_outer_name(name n);
-	void add_inner_name(name n);
+	void add_outer_name(string n, name nm);
+	void add_inner_name(string n, name nm);
 	set<reactionrule*> get_rules();
 	void set_root(term *n);
 	void add_rule(reactionrule *r);
