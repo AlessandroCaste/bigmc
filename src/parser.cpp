@@ -307,19 +307,31 @@ term *parser::bg_mknode(numnode *p) {
 }
 
 vector<name> parser::bg_names(seqnode *p) {
-	namenode *l = (namenode *)p->lhs;
-	string n = l->to_string();
-	name nm = bigraph::name_from_string(n);
+	
 	vector<name> v;
-	v.push_back(nm);
+	parsenode * l = (parsenode *) p->lhs;
+
+	if(l->type == NODE_NAME) {
+		namenode *nn = (namenode *) l;
+		string n = nn->to_string();
+		name nm = bigraph::name_from_string(n);
+		v.push_back(nm);
+	} else if (l->type == NODE_VARIABLE) {
+		variablenode *vn = (variablenode *) l;
+		string n = vn->to_string();
+		name nm = bigraph::variable_name_from_string(n);
+		v.push_back(nm);
+	} else {
+		rerror("parser::bg_names") << " Invalid argument among ports " << endl;
+	}
 
 	vector<name> w = bg_names(p->rhs);
-
 	for(unsigned int i = 0; i < w.size(); i++) {
 		v.push_back(w[i]);
 	}
-
+	
 	return v;
+
 }
 
 vector<name> parser::bg_names(parsenode *p) {
@@ -336,7 +348,7 @@ vector<name> parser::bg_names(parsenode *p) {
 			return bg_names((seqnode *) p);
 		} case NODE_VARIABLE: {
 			vector<name> v;
-			name nm = bigraph::name_from_string(((variablenode *)p)->to_string());
+			name nm = bigraph::variable_name_from_string(((variablenode *)p)->to_string());
 			v.push_back(nm);
 			return v;		 
 		}

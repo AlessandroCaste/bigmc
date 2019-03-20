@@ -35,7 +35,7 @@ map<string,control> bigraph::control_map;
 map<control,bool> bigraph::activity_map;
 map<control,int> bigraph::arity_map;
 set<name> bigraph::names;
-set<string> bigraph::names_string;
+set<name> bigraph::variables;
 
 bigraph::bigraph(int roots) {
 	root = NULL;
@@ -62,23 +62,35 @@ control bigraph::control_from_string(string n) {
 
 name bigraph::name_from_string(string n) {
 	if(n == "") return 0;
-
-	if(names_string.count(n) > 0) {
-		map<string,name>::iterator it;
-		it = bigraph::name_map.find(n);
-		if(it == bigraph::name_map.end()) {
-			// No such element, insert a new one
-			name fresh = bigraph::u_name++;
-			bigraph::name_map[n] = fresh;
-			return fresh;
-		} else {
-			return bigraph::name_map[n];
-		}
+	map<string,name>::iterator it;
+	it = bigraph::name_map.find(n);
+	if(it == bigraph::name_map.end()) {
+		// No such element, insert a new one
+		name fresh = bigraph::u_name++;
+		bigraph::name_map[n] = fresh;
+		return fresh;
 	} else {
-		rerror("bigraph::name_from_string") << "Ports in reaction rules must be scoped variables or declared names" << endl;
-		exit(1);
+		return bigraph::name_map[n];
+	}
+
+}
+
+
+name bigraph::variable_name_from_string(string n) {
+	if(n == "") return 0;
+	map<string,name>::iterator it;
+	it = bigraph::name_map.find(n);
+	if(it == bigraph::name_map.end()) {
+		// No such element, insert a new one
+		name fresh = bigraph::u_name++;
+		bigraph::name_map[n] = fresh;
+		variables.insert(fresh);
+		return fresh;
+	} else {
+		return bigraph::name_map[n];
 	}
 }
+
 
 bool bigraph::activity(control c) {
 	return bigraph::activity_map[c];
@@ -96,13 +108,11 @@ control bigraph::add_control(string n, bool act, int ar) {
 }
 
 void bigraph::add_outer_name(string n,name nm) {
-	names_string.insert(n);
 	outer.insert(nm);
 	names.insert(nm);
 }
 
 void bigraph::add_inner_name(string n, name nm) {
-	names_string.insert(n);
 	inner.insert(nm);
 	names.insert(nm);
 }
@@ -273,8 +283,18 @@ string bigraph::to_string() {
 }
 
 bool bigraph::is_free(name n) {
-	if(n == 0) return false;
-	return (names.find(n) == names.end());
+
+	if(n == 0) 
+		return false;
+	else if(names.find(n) != names.end() && variables.find(n) == variables.end())
+		return false;
+	else if(variables.find(n) != variables.end())
+		return true;
+	else {
+		rerror("bigraph::is_free") << "Ports in reaction rules are either scoped variables or declared names" << endl;
+		exit(1);
+	}
+
 }
 
 set<reactionrule *> bigraph::get_rules() {

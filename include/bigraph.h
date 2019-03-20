@@ -36,7 +36,7 @@ public:
 	static map<control,bool> activity_map;
 	static map<control,int> arity_map;
 	static set<name> names;
-	static set<string> names_string;
+	static set<name> variables;
 	static control u_control;
 	static name u_name;
 	bigraph(int roots);
@@ -48,6 +48,7 @@ public:
 	static control control_from_string(string n);
 	static string control_to_string(control c);
 	static name name_from_string(string n);
+	static name variable_name_from_string(string n);
 	static string name_to_string(name n);
 	static bool activity(control c);
 	static int arity(control c);
