@@ -1,16 +1,15 @@
-# Example of bifurcation: both reaction rules apply to Room.User[default]
+# Loops : should they be prevented?
 
 %active User : 1;
-%passive Room : 0;
-%active Change : 1;
+%active Room : 0;
 
 %name default;
 
+User[@a] -> User[default];
 
-Room.User[@a] -> User[@a];
-Room.User[default] -> Change[default];
+User[default];
 
-# A model definition with an unexpected name will work instead, since the new name will be bound
-Room.User[Alfred] | Room.User[default];
+# User[@b]; -> This gives the same result since variables are allowed inside the model!
+
 
 %check;

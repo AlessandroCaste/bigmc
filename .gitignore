@@ -42,3 +42,20 @@ src/predicates/*.lo
 stamp-h1
 ylwrap
 
+compile
+doc/manual/.dirstamp
+doc/manual/bigmc.info
+doc/manual/stamp-vti
+doc/manual/version.texi
+doc/mdate-sh
+doc/texinfo.tex
+INSTALL
+INSTALL
+*.m4
+src/bgparser.hpp
+src/bigmc
+tests/.deps/test_matcher-test-matcher.Po
+tests/.deps/test_bigraph-test-bigraph.Po
+test-driver
+src/libbigmc.a
+INSTALL

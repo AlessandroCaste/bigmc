@@ -2,6 +2,7 @@
 
 %active User : 1;
 %passive Room : 0;
+%active New : 1;
 
 %name default;
 
@@ -9,6 +10,7 @@
 # Room.User[a] -> Room.User[a];
 
 Room.User[@a] -> User[@a];
+User[@a] -> User[@a];
 
 # A model definition with an unexpected name will work instead, since the new name will be bound
 Room.User[Alfred] | Room.User[Bruce];

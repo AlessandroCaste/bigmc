@@ -1,4 +1,4 @@
-# Example of 'bifurcation'
+# Example of bifurcation
 
 %active User : 1;
 %passive Room : 0;
@@ -10,7 +10,6 @@
 Room.User[@a] -> User[@a];
 Room.User[default] -> Change[default];
 
-# A model definition with an unexpected name will work instead, since the new name will be bound
 Room.User[Alfred] | Room.User[default];
 
 %check;
