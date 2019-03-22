@@ -60,7 +60,11 @@ control bigraph::control_from_string(string n) {
 	}
 }
 
-name bigraph::name_from_string(string n) {
+// A name is returned both for free names (that is, variables) and bound names
+// Names are unique int assigned in increasing order
+// Names are assigned once across different reactions
+
+name bigraph::name_from_string(string n, int type) {
 	if(n == "") return 0;
 	map<string,name>::iterator it;
 	it = bigraph::name_map.find(n);
@@ -68,27 +72,13 @@ name bigraph::name_from_string(string n) {
 		// No such element, insert a new one
 		name fresh = bigraph::u_name++;
 		bigraph::name_map[n] = fresh;
+		if(type = NODE_VARIABLE )
+			variables.insert(fresh);
 		return fresh;
 	} else {
 		return bigraph::name_map[n];
 	}
 
-}
-
-
-name bigraph::variable_name_from_string(string n) {
-	if(n == "") return 0;
-	map<string,name>::iterator it;
-	it = bigraph::name_map.find(n);
-	if(it == bigraph::name_map.end()) {
-		// No such element, insert a new one
-		name fresh = bigraph::u_name++;
-		bigraph::name_map[n] = fresh;
-		variables.insert(fresh);
-		return fresh;
-	} else {
-		return bigraph::name_map[n];
-	}
 }
 
 
@@ -226,7 +216,7 @@ bigraph *bigraph::apply_match(match *m) {
 		wide_match *wm = (wide_match *)m;
 
 		if(reactum->get_children().size() != wm->get_submatches().size()) {
-			rerror("bigraph::apply_match") << "Wide rules much match in the number"
+			rerror("bigraph::apply_match") << "Wide rules must match in the number"
 				"of regions in the redex and reactum" << endl;
 			exit(1);
 		}
@@ -295,6 +285,10 @@ bool bigraph::is_free(name n) {
 		exit(1);
 	}
 
+}
+
+void bigraph::clear_variables() {
+	variables.clear();
 }
 
 set<reactionrule *> bigraph::get_rules() {

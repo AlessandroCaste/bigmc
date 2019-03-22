@@ -59,3 +59,4 @@ tests/.deps/test_bigraph-test-bigraph.Po
 test-driver
 src/libbigmc.a
 INSTALL
+*.bin

@@ -311,15 +311,10 @@ vector<name> parser::bg_names(seqnode *p) {
 	vector<name> v;
 	parsenode * l = (parsenode *) p->lhs;
 
-	if(l->type == NODE_NAME) {
+	if(l->type == NODE_NAME || l->type == NODE_VARIABLE) {
 		namenode *nn = (namenode *) l;
 		string n = nn->to_string();
-		name nm = bigraph::name_from_string(n);
-		v.push_back(nm);
-	} else if (l->type == NODE_VARIABLE) {
-		variablenode *vn = (variablenode *) l;
-		string n = vn->to_string();
-		name nm = bigraph::variable_name_from_string(n);
+		name nm = bigraph::name_from_string(n,l->type);
 		v.push_back(nm);
 	} else {
 		rerror("parser::bg_names") << " Invalid argument among ports " << endl;
@@ -336,26 +331,18 @@ vector<name> parser::bg_names(seqnode *p) {
 
 vector<name> parser::bg_names(parsenode *p) {
 	if(!p) return vector<name>();
-
-	switch(p->type) {
-		case NODE_NAME: {
-			vector<name> v;
-			name nm = bigraph::name_from_string(((namenode *)p)->to_string());
-			v.push_back(nm);
-			return v;
-		}
-		case NODE_SEQ: {
-			return bg_names((seqnode *) p);
-		} case NODE_VARIABLE: {
-			vector<name> v;
-			name nm = bigraph::variable_name_from_string(((variablenode *)p)->to_string());
-			v.push_back(nm);
-			return v;		 
-		}
-		default:
-			cerr << "BUG: Invalid name: " << p->to_string() << endl;
-			exit(1);
-			break;
+	
+	if(p->type == NODE_NAME || p->type == NODE_VARIABLE) {
+		vector<name> v;
+		name nm = bigraph::name_from_string(((namenode *)p)->to_string(), p->type);
+		v.push_back(nm);
+		return v;
+	}
+	else if(p->type == NODE_SEQ) 
+		return bg_names((seqnode *) p);
+	else {
+		cerr << "BUG: Invalid name: " << p->to_string() << endl;
+		exit(1);
 	}
 
 	return vector<name>();
@@ -490,7 +477,7 @@ bigraph *parser::finish() {
 				if(DEBUG) printf("NODE_INTERFACE\n");
 				interfacenode *t = (interfacenode *)(*it);
 				string n = ((namenode *)t->name)->to_string();
-				name nm = b->name_from_string(n);
+				name nm = b->name_from_string(n,NODE_INTERFACE);
 				if(t->outer)
 					b->add_outer_name(n,nm);
 				else
