@@ -47,7 +47,7 @@ public:
 	long hash();
 	static control control_from_string(string n);
 	static string control_to_string(control c);
-	static name name_from_string(string n);
+	static name name_from_string(string n, int type);
 	static name variable_name_from_string(string n);
 	static string name_to_string(name n);
 	static bool activity(control c);

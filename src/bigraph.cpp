@@ -287,10 +287,6 @@ bool bigraph::is_free(name n) {
 
 }
 
-void bigraph::clear_variables() {
-	variables.clear();
-}
-
 set<reactionrule *> bigraph::get_rules() {
 	return rules;
 }
