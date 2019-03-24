@@ -1,0 +1,11 @@
+%active User : 1;
+%active Room : 0;
+
+%name Mario;
+
+
+User[Mario] -> Room;
+
+User[Mario];
+
+%check;

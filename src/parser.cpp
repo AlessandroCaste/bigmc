@@ -77,7 +77,7 @@ vector<parsenode *> g_parsetree;
 bool g_has_check = false;
 
 void parser_add_result(parsenode *p) {
-	if(DEBUG) cout << "BUG: parser_add_result: " << p->to_string() << endl;
+	if(DEBUG) cout << "BUG: parser_add_result: " << p->to_string() << " and type " << p->type << endl;
 	g_parsetree.push_back(p);
 }
 

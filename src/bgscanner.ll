@@ -59,8 +59,8 @@ IDENTR	[a-zA-Z0-9_]
 "\n"		  {
 			yycolumn = 1;
 		  }
-";"               {
-                    return SEMI;
+";"               { 
+                    /* Gets skipped */
                   }
 "->"               {
                     return ARROW;
@@ -89,37 +89,36 @@ IDENTR	[a-zA-Z0-9_]
 ")"               {
                     return RPAR;
                   }
-"%inner"          {
+"control"         { return CONTROL; }
+"names"           { return NAMES; }
+"inner"          {
                     return INNER;
                   }
-"%outer"          {
+"outer"          {
                     return OUTER;
                   }
-"%name"           {
-                    return OUTER;
-                  }
-"%active"         {
+"active"         {
                     return ACTIVE;
                   }
-"%passive"        {
+"passive"        {
                     return PASSIVE;
                   }
-"%property"       {
-                    return PROPERTY;
+"properties"       {
+                    return PROPERTIES;
                   }
-"%rule"		  {
+"rule"		        {
 		    return RULE;
-		  }
+		              }
 "%import"         {
 		    return IMPORT;
-		  }
+		              }
 "&&"       	  {
                     return LAND;
                   }
 "!"		  {
                     return LNOT;
 		  }
-"%check"          {
+"check"          {
                     yyterminate();
                   }
 ":"               {
@@ -142,7 +141,6 @@ IDENTR	[a-zA-Z0-9_]
 "-"		  { return UNLINKED; }
 "nil"		  { return NIL; }
 "@"     { return VARIABLE; }
-
 {DIGIT}+	 {
 		    std::istringstream(yytext) >> yylval.value;
                     return NUM;

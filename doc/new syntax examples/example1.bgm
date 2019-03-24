@@ -1,0 +1,16 @@
+# Example of multiple matching
+
+control:
+    active User  1
+    passive Room 0
+    active New   1
+
+names:
+    outer default
+
+
+rule: Room.User[@a] -> User[@a]
+
+Room.User[Alfred] | Room.User[Bruce]
+
+check

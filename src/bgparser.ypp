@@ -49,77 +49,108 @@ char *numtostr(int i) {
 %token SEMI ARROW PAR PREF COMMA LSQ RSQ LPAR RPAR
 %token INNER OUTER DPAR UNLINKED RULE IMPORT
 %token ACTIVE PASSIVE COLON HOLE IDENT NUM
-%token PROPERTY LAND LOR LNOT FORALL EXISTS NIL
-%token LEQ GEQ LT GT EQ NEQ DOLLAR VARIABLE BTRUE BFALSE IF THEN ELSE
+%token CONTROL NAMES PROPERTIES LAND LOR LNOT FORALL EXISTS NIL 
+%token LEQ GEQ LT GT EQ NEQ DOLLAR VARIABLE BTRUE BFALSE IF THEN ELSE  
 
-%type <node> model dec reaction exp expel property 
-%type <node> prefix names propexp propatom proplist proplistel
+%type <node> exp expel property bigraph control reactions model name_statement control_statement properties
+%type <node> prefix names expnames propexp propatom proplist proplistel  
 %type <value> NUM
 %type <ident> HOLE IDENT
 
-%start model
+%start bigraph
 
 %%
 
+bigraph
+: control { $$ = $1; }
+;
+
+control
+: CONTROL COLON control_statement 		{ $$ = $3; }
+| names							  		{ $$ = $1; }
+;
+
+control_statement
+: ACTIVE IDENT  NUM control_statement	{ parser_add_result(new signaturenode(new namenode($2),true,$3)); $$ = $4;  }
+| PASSIVE IDENT NUM control_statement	{ parser_add_result(new signaturenode(new namenode($2),false,$3)); $$ = $4; }
+| ACTIVE IDENT  NUM names				{ parser_add_result(new signaturenode(new namenode($2),true,$3)); $$ = $4;  }
+| PASSIVE IDENT NUM names				{ parser_add_result(new signaturenode(new namenode($2),false,$3)); $$ = $4; }
+;
+
+/* Defining names set could be a further step stemming from this rule */
+names
+: NAMES COLON name_statement 			{ $$ = $3; }
+| reactions			   					{ $$ = $1; }
+;
+
+name_statement
+: INNER IDENT name_statement          { parser_add_result(new interfacenode(new namenode($2),false)); $$ = $3;}
+| OUTER IDENT name_statement          { parser_add_result(new interfacenode(new namenode($2),true));  $$ = $3;}
+| INNER IDENT reactions               { parser_add_result(new interfacenode(new namenode($2),false)); $$ = $3;}
+| OUTER IDENT reactions               { parser_add_result(new interfacenode(new namenode($2),true));  $$ = $3;}
+;
+
+reactions
+: RULE COLON exp ARROW exp reactions		{ parser_add_result(new reactionnode($3,$5)); $$ = $6; }
+| RULE IDENT COLON exp ARROW exp reactions  { parser_add_result(new reactionnode($4,$6)); $$ = $7; }
+| model										{ $$ = $1; }
+;
+
 model
-: dec SEMI model		{ /* @1; */ parser_add_result($1); $$ = NULL; }
-| dec SEMI			{ parser_add_result($1), $$ = $1 ; }
-| error SEMI			{ $$ = NULL; }
-| dec				{ parser_add_result($1); $$ = $1; }
-;
-
-dec
-: INNER IDENT			{ $$ = new interfacenode(new namenode($2),false); }
-| OUTER IDENT			{ $$ = new interfacenode(new namenode($2),true); }
-| ACTIVE IDENT COLON NUM	{ $$ = new signaturenode(new namenode($2),true,$4); }
-| PASSIVE IDENT COLON NUM	{ $$ = new signaturenode(new namenode($2),false,$4); }
-| PROPERTY IDENT property	{ $$ = new propertynode($2,$3); }
-| RULE IDENT reaction		{ ((reactionnode*)$3)->name = string(strdup($2)); $$ = $3; }
-| IMPORT IDENT			{ parser_import($2); }
-| reaction			{ $$ = $1; }
-| exp				{ $$ = $1; }
-;
-
-reaction			
-: exp ARROW exp			{ $$ = new reactionnode($1,$3); }
+: exp				{ parser_add_result($1); $$ = $1; }
 ;
 
 exp
 : expel LOR exp			{ $$ = new regionnode($1,$3); }
 | expel PAR exp			{ $$ = new parallelnode($1,$3); }
-| expel				{ $$ = $1; }
+| expel				    { $$ = $1; }
 ;
 
 expel
 : prefix PREF expel		{ $$ = new prefixnode($1,$3); }
-| prefix			{ $$ = new prefixnode($1,NULL); }
+| prefix				{ $$ = new prefixnode($1,NULL); }
 | DOLLAR NUM			{ $$ = new holenode($2); }
 | LPAR exp RPAR			{ $$ = $2; }
-| NIL				{ $$ = new nilnode(); }
+| NIL					{ $$ = new nilnode(); }
 ;
 
 prefix
-: IDENT LSQ names RSQ		{ $$ = new controlnode(new namenode($1), $3); }
-| IDENT				{ $$ = new controlnode(new namenode($1), NULL); }
-| NUM				{ $$ = new numnode($1); }
+: IDENT LSQ expnames RSQ		{ $$ = new controlnode(new namenode($1), $3); }
+| IDENT						{ $$ = new controlnode(new namenode($1), NULL); }
+| NUM						{ $$ = new numnode($1); }
 ;
 
-names
-: IDENT COMMA names		{ $$ = new seqnode(new namenode($1),$3); }
-| UNLINKED COMMA names		{ $$ = new seqnode(new namenode(""),$3); }
-| VARIABLE IDENT COMMA names	{$$ = new seqnode(new variablenode($2),$4);}
-| VARIABLE IDENT		{$$ = new variablenode($2); }
-| IDENT				{ $$ = new namenode($1); }
-| UNLINKED			{ $$ = new namenode(""); }
+expnames
+: IDENT COMMA expnames			{ $$ = new seqnode(new namenode($1),$3); }
+| VARIABLE IDENT COMMA expnames 	{ $$ = new seqnode(new variablenode($2),$4); }
+| UNLINKED COMMA expnames			{ $$ = new seqnode(new namenode(""),$3); }
+| VARIABLE IDENT COMMA expnames	{ $$ = new seqnode(new variablenode($2),$4); }
+| VARIABLE IDENT				{ $$ = new variablenode($2); }
+| VARIABLE IDENT				{ $$ = new variablenode($2); }
+| IDENT							{ $$ = new namenode($1); }
+| UNLINKED						{ $$ = new namenode(""); }
+;
+
+properties
+: PROPERTIES COLON property 	 { $$ = NULL; }
+;
+
+property
+: propexp LAND propexp		{ parser_add_result(new binnode($1,OPR_AND,$3)); }
+| propexp LOR propexp		{ parser_add_result(new binnode($1,OPR_OR, $3)); }
+| LNOT propexp				{ parser_add_result(new notnode($2)); }
+| IF property THEN property ELSE property
+							{ parser_add_result(new ifnode($2,$4,$6)); }
+| propexp					{ parser_add_result($1); }
 ;
 
 property
 : propexp LAND propexp		{ $$ = new binnode($1,OPR_AND,$3); }
 | propexp LOR propexp		{ $$ = new binnode($1,OPR_OR, $3); }
-| LNOT propexp			{ $$ = new notnode($2); }
+| LNOT propexp				{ $$ = new notnode($2); }
 | IF property THEN property ELSE property
-				{ $$ = new ifnode($2,$4,$6); }
-| propexp			{ $$ = $1; }
+							{ $$ = new ifnode($2,$4,$6); }
+| propexp					{ $$ = $1; }
 ;
 
 propexp
@@ -151,6 +182,8 @@ proplistel
 | DOLLAR IDENT			{ $$ = new namenode($2); }
 | exp				{ $$ = $1; }
 ;
+
+
 
 %%
 
