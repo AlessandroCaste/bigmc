@@ -56,16 +56,16 @@ IDENTR	[a-zA-Z0-9_]
                   }
 "\t"              {
                   }
-"\n"		  {
+"\n"		          {
 			yycolumn = 1;
-		  }
+		              }
 ";"               { 
                     /* Gets skipped */
                   }
 "->"               {
                     return ARROW;
                   }
-"||"       	  {
+"||"       	      {
                     return LOR;
                   }
 "|"               {
@@ -89,58 +89,66 @@ IDENTR	[a-zA-Z0-9_]
 ")"               {
                     return RPAR;
                   }
-"control"         { return CONTROL; }
-"names"           { return NAMES; }
-"inner"          {
+"control"         { 
+                    return CONTROL; 
+                  }
+"names"           { return NAMES; 
+                  }
+"inner"           {
                     return INNER;
                   }
-"outer"          {
+"outer"           {
                     return OUTER;
                   }
-"active"         {
+"active"          {
                     return ACTIVE;
                   }
-"passive"        {
+"passive"         {
                     return PASSIVE;
                   }
-"properties"       {
-                    return PROPERTIES;
+"property"      {
+                    return PROPERTY;
                   }
 "rule"		        {
-		    return RULE;
+		                return RULE;
 		              }
-"%import"         {
-		    return IMPORT;
-		              }
-"&&"       	  {
+"&&"       	      {
                     return LAND;
                   }
-"!"		  {
+"!"		            {
                     return LNOT;
-		  }
-"check"          {
+		              }
+"check"           {
                     yyterminate();
                   }
 ":"               {
                     return COLON;
                   }
-"<="		  { return LEQ; }
-">="		  { return GEQ; }
-"<"		  { return LT; }
-">"		  { return GT; }
-"=="		  { return EQ; }
-"!="		  { return NEQ; }
-"forall"	  { return FORALL; }
-"exists"	  { return EXISTS; }
-"$"		  { return DOLLAR; }
-"true"		  { return BTRUE; }
-"if"		  { return IF; }
-"then"		  { return THEN; }
-"else"		  { return ELSE; }
-"#"		  { BEGIN COMMENT; }
-"-"		  { return UNLINKED; }
-"nil"		  { return NIL; }
-"@"     { return VARIABLE; }
+"="               {
+                    return ASSIGNMENT;
+                  }
+"@"               { 
+                    return VARIABLE; 
+                  }
+
+"<="		          { return LEQ; }
+">="		          { return GEQ; }
+"<"		            { return LT; }
+">"		            { return GT; }
+"=="		          { return EQ; }
+"!="		          { return NEQ; }
+"forall"	        { return FORALL; }
+"exists"	        { return EXISTS; }
+"$"		            { return DOLLAR; }
+"true"		        { return BTRUE; }
+"if"		          { return IF; }
+"then"		        { return THEN; }
+"else"		        { return ELSE; }
+"#"		            { BEGIN COMMENT; }
+"-"		            { return UNLINKED; }
+"nil"		          { return NIL; }
+
+
 {DIGIT}+	 {
 		    std::istringstream(yytext) >> yylval.value;
                     return NUM;

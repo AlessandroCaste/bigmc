@@ -60,35 +60,35 @@ extern int yydebug;
     DPAR = 270,
     UNLINKED = 271,
     RULE = 272,
-    IMPORT = 273,
-    ACTIVE = 274,
-    PASSIVE = 275,
-    COLON = 276,
-    HOLE = 277,
-    IDENT = 278,
-    NUM = 279,
-    CONTROL = 280,
-    NAMES = 281,
-    PROPERTIES = 282,
-    LAND = 283,
-    LOR = 284,
-    LNOT = 285,
-    FORALL = 286,
-    EXISTS = 287,
-    NIL = 288,
-    LEQ = 289,
-    GEQ = 290,
-    LT = 291,
-    GT = 292,
-    EQ = 293,
-    NEQ = 294,
-    DOLLAR = 295,
-    VARIABLE = 296,
-    BTRUE = 297,
-    BFALSE = 298,
-    IF = 299,
-    THEN = 300,
-    ELSE = 301
+    ACTIVE = 273,
+    PASSIVE = 274,
+    COLON = 275,
+    HOLE = 276,
+    IDENT = 277,
+    NUM = 278,
+    CONTROL = 279,
+    NAMES = 280,
+    PROPERTY = 281,
+    LAND = 282,
+    LOR = 283,
+    LNOT = 284,
+    FORALL = 285,
+    EXISTS = 286,
+    NIL = 287,
+    LEQ = 288,
+    GEQ = 289,
+    LT = 290,
+    GT = 291,
+    EQ = 292,
+    NEQ = 293,
+    DOLLAR = 294,
+    VARIABLE = 295,
+    BTRUE = 296,
+    BFALSE = 297,
+    IF = 298,
+    THEN = 299,
+    ELSE = 300,
+    ASSIGNMENT = 301
   };
 #endif
 /* Tokens.  */
@@ -107,35 +107,35 @@ extern int yydebug;
 #define DPAR 270
 #define UNLINKED 271
 #define RULE 272
-#define IMPORT 273
-#define ACTIVE 274
-#define PASSIVE 275
-#define COLON 276
-#define HOLE 277
-#define IDENT 278
-#define NUM 279
-#define CONTROL 280
-#define NAMES 281
-#define PROPERTIES 282
-#define LAND 283
-#define LOR 284
-#define LNOT 285
-#define FORALL 286
-#define EXISTS 287
-#define NIL 288
-#define LEQ 289
-#define GEQ 290
-#define LT 291
-#define GT 292
-#define EQ 293
-#define NEQ 294
-#define DOLLAR 295
-#define VARIABLE 296
-#define BTRUE 297
-#define BFALSE 298
-#define IF 299
-#define THEN 300
-#define ELSE 301
+#define ACTIVE 273
+#define PASSIVE 274
+#define COLON 275
+#define HOLE 276
+#define IDENT 277
+#define NUM 278
+#define CONTROL 279
+#define NAMES 280
+#define PROPERTY 281
+#define LAND 282
+#define LOR 283
+#define LNOT 284
+#define FORALL 285
+#define EXISTS 286
+#define NIL 287
+#define LEQ 288
+#define GEQ 289
+#define LT 290
+#define GT 291
+#define EQ 292
+#define NEQ 293
+#define DOLLAR 294
+#define VARIABLE 295
+#define BTRUE 296
+#define BFALSE 297
+#define IF 298
+#define THEN 299
+#define ELSE 300
+#define ASSIGNMENT 301
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

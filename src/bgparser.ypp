@@ -47,13 +47,13 @@ char *numtostr(int i) {
 
 %token UNKNOWN
 %token SEMI ARROW PAR PREF COMMA LSQ RSQ LPAR RPAR
-%token INNER OUTER DPAR UNLINKED RULE IMPORT
+%token INNER OUTER DPAR UNLINKED RULE 
 %token ACTIVE PASSIVE COLON HOLE IDENT NUM
-%token CONTROL NAMES PROPERTIES LAND LOR LNOT FORALL EXISTS NIL 
-%token LEQ GEQ LT GT EQ NEQ DOLLAR VARIABLE BTRUE BFALSE IF THEN ELSE  
+%token CONTROL NAMES PROPERTY LAND LOR LNOT FORALL EXISTS NIL 
+%token LEQ GEQ LT GT EQ NEQ DOLLAR VARIABLE BTRUE BFALSE IF THEN ELSE ASSIGNMENT  
 
-%type <node> exp expel property bigraph control reactions model name_statement control_statement properties
-%type <node> prefix names expnames propexp propatom proplist proplistel  
+%type <node> exp expel properties property bigraph control reactions model name_statement control_statement 
+%type <node> prefix names expnames propexp propatom proplist proplistel
 %type <value> NUM
 %type <ident> HOLE IDENT
 
@@ -91,13 +91,14 @@ name_statement
 ;
 
 reactions
-: RULE COLON exp ARROW exp reactions		{ parser_add_result(new reactionnode($3,$5)); $$ = $6; }
-| RULE IDENT COLON exp ARROW exp reactions  { parser_add_result(new reactionnode($4,$6)); $$ = $7; }
-| model										{ $$ = $1; }
+: RULE ASSIGNMENT exp ARROW exp reactions			{ parser_add_result(new reactionnode($3,$5)); $$ = $6; }
+| RULE IDENT ASSIGNMENT exp ARROW exp reactions  	{ parser_add_result(new reactionnode($4,$6)); $$ = $7; }
+| model												{ $$ = $1; }
 ;
 
 model
-: exp				{ parser_add_result($1); $$ = $1; }
+: exp properties			{ parser_add_result($1); $$ = $1; }
+| exp						{ parser_add_result($1); $$ = $1; }
 ;
 
 exp
@@ -116,32 +117,21 @@ expel
 
 prefix
 : IDENT LSQ expnames RSQ		{ $$ = new controlnode(new namenode($1), $3); }
-| IDENT						{ $$ = new controlnode(new namenode($1), NULL); }
-| NUM						{ $$ = new numnode($1); }
+| IDENT							{ $$ = new controlnode(new namenode($1), NULL); }
 ;
 
 expnames
-: IDENT COMMA expnames			{ $$ = new seqnode(new namenode($1),$3); }
+: IDENT COMMA expnames				{ $$ = new seqnode(new namenode($1),$3); }
 | VARIABLE IDENT COMMA expnames 	{ $$ = new seqnode(new variablenode($2),$4); }
 | UNLINKED COMMA expnames			{ $$ = new seqnode(new namenode(""),$3); }
-| VARIABLE IDENT COMMA expnames	{ $$ = new seqnode(new variablenode($2),$4); }
-| VARIABLE IDENT				{ $$ = new variablenode($2); }
-| VARIABLE IDENT				{ $$ = new variablenode($2); }
-| IDENT							{ $$ = new namenode($1); }
-| UNLINKED						{ $$ = new namenode(""); }
+| VARIABLE IDENT					{ $$ = new variablenode($2); }
+| IDENT								{ $$ = new namenode($1); }
+| UNLINKED							{ $$ = new namenode(""); }
 ;
 
 properties
-: PROPERTIES COLON property 	 { $$ = NULL; }
-;
-
-property
-: propexp LAND propexp		{ parser_add_result(new binnode($1,OPR_AND,$3)); }
-| propexp LOR propexp		{ parser_add_result(new binnode($1,OPR_OR, $3)); }
-| LNOT propexp				{ parser_add_result(new notnode($2)); }
-| IF property THEN property ELSE property
-							{ parser_add_result(new ifnode($2,$4,$6)); }
-| propexp					{ parser_add_result($1); }
+: PROPERTY IDENT ASSIGNMENT property properties	 { parser_add_result(new propertynode($2,$4)); }
+| PROPERTY IDENT ASSIGNMENT property			 { parser_add_result(new propertynode($2,$4)); }
 ;
 
 property
@@ -160,27 +150,28 @@ propexp
 | propatom GEQ propatom		{ $$ = new binnode($1,OPR_GEQ,$3); }
 | propatom LT propatom		{ $$ = new binnode($1,OPR_LT,$3); }
 | propatom GT propatom		{ $$ = new binnode($1,OPR_GT,$3); }
-| propatom			{ $$ = $1; }
+| propatom					{ $$ = $1; }
 ;
 
 propatom
-: LPAR property RPAR		{ $$ = $2; }
-| IDENT LPAR RPAR		{ $$ = new prednode($1,NULL); }
-| IDENT LPAR proplist RPAR	{ $$ = new prednode($1,$3); }
-| NUM				{ $$ = new numnode($1); }
-| DOLLAR IDENT			{ $$ = new namenode($2); }
+: LPAR property RPAR			{ $$ = $2; }
+| IDENT LPAR RPAR				{ $$ = new prednode($1,NULL); }
+| IDENT LPAR proplist RPAR		{ $$ = new prednode($1,$3); }
+| NUM							{ $$ = new numnode($1); }
+| DOLLAR IDENT					{ $$ = new namenode($2); }
 | DOLLAR IDENT ARROW propatom	{ $$ = new querynode($2,$4); }
 ;
 
+
 proplist
 : proplistel COMMA proplist	{ $$ = new seqnode($1,$3); }
-| proplistel			{ $$ = $1; }
+| proplistel				{ $$ = $1; }
 ;
 
 proplistel
-: NUM				{ $$ = new numnode($1); }
-| DOLLAR IDENT			{ $$ = new namenode($2); }
-| exp				{ $$ = $1; }
+: NUM						{ $$ = new numnode($1); }
+| DOLLAR IDENT				{ $$ = new namenode($2); }
+| exp						{ $$ = $1; }
 ;
 
 

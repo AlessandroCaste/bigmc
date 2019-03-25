@@ -46,14 +46,15 @@ struct mc_id {
 map<string,query*> mc::properties;
 set<match *> mc::match_discard;
 
-void add_calculation(bigraph *b) {
-	;
-}
+// This function seems like a relic of an abandoned idea
+//void add_calculation(bigraph *b) {
+//	;
+//}
 
 mc::mc(bigraph *b) {
-	if(global_cfg.calculation) {
-		add_calculation(b);
-	}
+//	if(global_cfg.calculation) {
+//		add_calculation(b);
+//	}
 
 	node *n = new node(b,NULL,NULL);
 	g = new graph(n);
