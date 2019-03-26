@@ -1,0 +1,14 @@
+controls:
+    passive send  1
+    passive recv  1
+
+names:
+    outer a
+    outer b
+    outer c
+
+rule r = send[@x].$0 | recv[@x].$1 | $2 -> $0 | $1 | $2
+
+model link = send[a].recv[b].recv[c] | recv[a].send[b].send[c] | send[a].recv[a].recv[a]
+
+check

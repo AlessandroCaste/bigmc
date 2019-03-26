@@ -46,109 +46,111 @@ extern int yydebug;
   enum yytokentype
   {
     UNKNOWN = 258,
-    SEMI = 259,
-    ARROW = 260,
-    PAR = 261,
-    PREF = 262,
-    COMMA = 263,
-    LSQ = 264,
-    RSQ = 265,
-    LPAR = 266,
-    RPAR = 267,
-    INNER = 268,
-    OUTER = 269,
-    DPAR = 270,
-    UNLINKED = 271,
-    RULE = 272,
-    ACTIVE = 273,
-    PASSIVE = 274,
-    COLON = 275,
-    HOLE = 276,
-    IDENT = 277,
-    NUM = 278,
-    CONTROL = 279,
-    NAMES = 280,
-    PROPERTY = 281,
-    LAND = 282,
-    LOR = 283,
-    LNOT = 284,
-    FORALL = 285,
-    EXISTS = 286,
-    NIL = 287,
-    LEQ = 288,
-    GEQ = 289,
-    LT = 290,
-    GT = 291,
-    EQ = 292,
-    NEQ = 293,
-    DOLLAR = 294,
-    VARIABLE = 295,
-    BTRUE = 296,
-    BFALSE = 297,
-    IF = 298,
-    THEN = 299,
-    ELSE = 300,
-    ASSIGNMENT = 301
+    CONTROLS = 259,
+    NAMES = 260,
+    PROPERTY = 261,
+    MODEL = 262,
+    RULE = 263,
+    SEMI = 264,
+    ARROW = 265,
+    PAR = 266,
+    PREF = 267,
+    COMMA = 268,
+    LSQ = 269,
+    RSQ = 270,
+    LPAR = 271,
+    RPAR = 272,
+    INNER = 273,
+    OUTER = 274,
+    DPAR = 275,
+    UNLINKED = 276,
+    ACTIVE = 277,
+    PASSIVE = 278,
+    COLON = 279,
+    HOLE = 280,
+    IDENT = 281,
+    NUM = 282,
+    LAND = 283,
+    LOR = 284,
+    LNOT = 285,
+    FORALL = 286,
+    EXISTS = 287,
+    NIL = 288,
+    LEQ = 289,
+    GEQ = 290,
+    LT = 291,
+    GT = 292,
+    EQ = 293,
+    NEQ = 294,
+    DOLLAR = 295,
+    VARIABLE = 296,
+    BTRUE = 297,
+    BFALSE = 298,
+    IF = 299,
+    THEN = 300,
+    ELSE = 301,
+    ASSIGNMENT = 302
   };
 #endif
 /* Tokens.  */
 #define UNKNOWN 258
-#define SEMI 259
-#define ARROW 260
-#define PAR 261
-#define PREF 262
-#define COMMA 263
-#define LSQ 264
-#define RSQ 265
-#define LPAR 266
-#define RPAR 267
-#define INNER 268
-#define OUTER 269
-#define DPAR 270
-#define UNLINKED 271
-#define RULE 272
-#define ACTIVE 273
-#define PASSIVE 274
-#define COLON 275
-#define HOLE 276
-#define IDENT 277
-#define NUM 278
-#define CONTROL 279
-#define NAMES 280
-#define PROPERTY 281
-#define LAND 282
-#define LOR 283
-#define LNOT 284
-#define FORALL 285
-#define EXISTS 286
-#define NIL 287
-#define LEQ 288
-#define GEQ 289
-#define LT 290
-#define GT 291
-#define EQ 292
-#define NEQ 293
-#define DOLLAR 294
-#define VARIABLE 295
-#define BTRUE 296
-#define BFALSE 297
-#define IF 298
-#define THEN 299
-#define ELSE 300
-#define ASSIGNMENT 301
+#define CONTROLS 259
+#define NAMES 260
+#define PROPERTY 261
+#define MODEL 262
+#define RULE 263
+#define SEMI 264
+#define ARROW 265
+#define PAR 266
+#define PREF 267
+#define COMMA 268
+#define LSQ 269
+#define RSQ 270
+#define LPAR 271
+#define RPAR 272
+#define INNER 273
+#define OUTER 274
+#define DPAR 275
+#define UNLINKED 276
+#define ACTIVE 277
+#define PASSIVE 278
+#define COLON 279
+#define HOLE 280
+#define IDENT 281
+#define NUM 282
+#define LAND 283
+#define LOR 284
+#define LNOT 285
+#define FORALL 286
+#define EXISTS 287
+#define NIL 288
+#define LEQ 289
+#define GEQ 290
+#define LT 291
+#define GT 292
+#define EQ 293
+#define NEQ 294
+#define DOLLAR 295
+#define VARIABLE 296
+#define BTRUE 297
+#define BFALSE 298
+#define IF 299
+#define THEN 300
+#define ELSE 301
+#define ASSIGNMENT 302
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 40 "bgparser.ypp" /* yacc.c:1909  */
+#line 42 "bgparser.ypp" /* yacc.c:1909  */
 
   parsenode *node;  /* For the expressions. Since it is a pointer, no problem. */
   int       value;  /* For the lexical analyser. NUMBER tokens */
   char      *ident;  /* For the lexical analyser. IDENT tokens */
 
-#line 152 "bgparser.hpp" /* yacc.c:1909  */
+#line 154 "bgparser.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

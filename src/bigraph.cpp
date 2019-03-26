@@ -72,7 +72,7 @@ name bigraph::name_from_string(string n, int type) {
 		// No such element, insert a new one
 		name fresh = bigraph::u_name++;
 		bigraph::name_map[n] = fresh;
-		if(type = NODE_VARIABLE )
+		if(type == NODE_VARIABLE)
 			variables.insert(fresh);
 		return fresh;
 	} else {

@@ -35,6 +35,8 @@ char *numtostr(int i) {
 	return strdup(str);
 }
 
+reactionnode *rnode;
+
 %}
 
 %union {
@@ -46,10 +48,10 @@ char *numtostr(int i) {
 %locations
 
 %token UNKNOWN
-%token SEMI ARROW PAR PREF COMMA LSQ RSQ LPAR RPAR
-%token INNER OUTER DPAR UNLINKED RULE 
+%token CONTROLS NAMES PROPERTY MODEL RULE SEMI ARROW PAR PREF COMMA LSQ RSQ LPAR RPAR
+%token INNER OUTER DPAR UNLINKED 
 %token ACTIVE PASSIVE COLON HOLE IDENT NUM
-%token CONTROL NAMES PROPERTY LAND LOR LNOT FORALL EXISTS NIL 
+%token LAND LOR LNOT FORALL EXISTS NIL 
 %token LEQ GEQ LT GT EQ NEQ DOLLAR VARIABLE BTRUE BFALSE IF THEN ELSE ASSIGNMENT  
 
 %type <node> exp expel properties property bigraph control reactions model name_statement control_statement 
@@ -66,7 +68,7 @@ bigraph
 ;
 
 control
-: CONTROL COLON control_statement 		{ $$ = $3; }
+: CONTROLS COLON control_statement 		{ $$ = $3; }
 | names							  		{ $$ = $1; }
 ;
 
@@ -91,14 +93,19 @@ name_statement
 ;
 
 reactions
-: RULE ASSIGNMENT exp ARROW exp reactions			{ parser_add_result(new reactionnode($3,$5)); $$ = $6; }
-| RULE IDENT ASSIGNMENT exp ARROW exp reactions  	{ parser_add_result(new reactionnode($4,$6)); $$ = $7; }
-| model												{ $$ = $1; }
+:
+RULE IDENT ASSIGNMENT exp ARROW exp reactions  	{ rnode = new reactionnode($4,$6);
+												  rnode->name = string(strdup($2)); 
+												  parser_add_result(rnode);
+												  $$ = $7;
+												}
+| model											{ $$ = $1; }
 ;
 
+
 model
-: exp properties			{ parser_add_result($1); $$ = $1; }
-| exp						{ parser_add_result($1); $$ = $1; }
+: MODEL IDENT ASSIGNMENT exp properties				{ parser_add_result($4); $$ = $4; }
+| MODEL IDENT ASSIGNMENT exp						{ parser_add_result($4); $$ = $4; }
 ;
 
 exp

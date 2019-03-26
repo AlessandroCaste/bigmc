@@ -89,8 +89,8 @@ IDENTR	[a-zA-Z0-9_]
 ")"               {
                     return RPAR;
                   }
-"control"         { 
-                    return CONTROL; 
+"controls"         { 
+                    return CONTROLS; 
                   }
 "names"           { return NAMES; 
                   }
@@ -112,6 +112,9 @@ IDENTR	[a-zA-Z0-9_]
 "rule"		        {
 		                return RULE;
 		              }
+"model"           {
+                    return MODEL;
+                  }
 "&&"       	      {
                     return LAND;
                   }

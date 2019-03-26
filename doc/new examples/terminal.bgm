@@ -1,0 +1,14 @@
+controls:
+    passive a  0
+    passive b  0
+    passive c  0
+
+
+rule r1 = a.a.$0 -> a.b.$0
+rule r2 = b.b.$0 -> a.b.$0
+rule r3 = a.b.a.b.a.b -> c
+
+model terminal = a.b.a.a.a.b
+
+
+check

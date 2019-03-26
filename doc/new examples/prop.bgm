@@ -1,0 +1,16 @@
+controls:
+    passive send  1
+    passive recv  1
+
+names:
+    outer a
+    outer b
+
+rule r = send[@x].$0 | recv[@x].$1 -> $0 | $1
+
+model prop = send[a].recv[b] | recv[a].send[b]
+
+property finished = !empty()
+property eq = !equal(send)
+
+check

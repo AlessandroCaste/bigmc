@@ -1,0 +1,17 @@
+controls:
+    active z    0
+    passive f   0
+    passive n   0
+    passive u   0
+
+
+rule r1 = z.(f | $0) | z.$1 -> z.$0 | z.(f | $1)
+rule r2 = z.(z.(f | $0) | $1) -> z.(z.$0 | f | $1)
+rule r3 = z.(z.$0 | f | $1) -> z.(z.(f | $0) | $1)
+rule r4 = z.(u | f | $0) -> z.(u | f | n | $0)
+
+model notify = z.u | z.(z.(f | f) | z.f)
+
+property notify = !matches(n)
+
+check
