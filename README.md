@@ -23,7 +23,7 @@ sudo apt-get g++
 
 ## Installation
 
-Now, to the actual install:
+Now, to the actual installation:
 
 ```
 git clone
@@ -41,4 +41,4 @@ export BIGMC_HOME=/usr/local/bigmc
 ```
 
 And we're done :)
-You can run bigmc by typing <code> bigmc </code> in your terminal.
+You can run bigmc by typing <code>bigmc</code> in your terminal.
