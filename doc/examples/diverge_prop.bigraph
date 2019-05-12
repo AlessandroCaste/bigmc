@@ -12,5 +12,3 @@ rule r3 = a.$0 -> c.$0
 model diverge_prop = a.b
 
 property growth = size() != $pred->size()
-
-check

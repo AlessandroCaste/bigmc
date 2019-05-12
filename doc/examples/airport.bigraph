@@ -75,6 +75,4 @@ Gates.(
 	Gate[-]
 ) | DB.(
 	PaxRecord[Gian,SK100]
-);
-
-check
+)

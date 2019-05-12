@@ -7,5 +7,3 @@ controls:
 rule r = a | b | $0 -> $0
 
 model par2 = a | b | c | d
-
-check

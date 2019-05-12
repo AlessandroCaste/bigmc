@@ -13,5 +13,3 @@ rule extract = send[@x].$0 | recv[@x].$1 -> $0 | $1;
 model ccs = send[a].recv[b].recv[a] | recv[a].send[b].send[a]
 
 property shrink = $pred->empty() || size() > $pred->size()
-
-check

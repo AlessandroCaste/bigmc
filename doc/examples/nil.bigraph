@@ -5,5 +5,3 @@ controls:
 rule r = a -> b
 
 model nil_model = a
-
-check

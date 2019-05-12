@@ -27,5 +27,3 @@ model dining_nil = F[F1] | P[F1,F2] | F[F2] | P[F2,F3] | F[F3] | P[F3,F4] | F[F4
 
 #property deadlock_free !terminal()
 
-check
-

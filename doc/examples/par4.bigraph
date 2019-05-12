@@ -8,6 +8,3 @@ rule r = a | b | c | c | d | a | b | d | c | a  -> a
 
 
 model par4 = a | b | c | d | a | b | c | d | a | b | d | c | a | b
-
-
-check

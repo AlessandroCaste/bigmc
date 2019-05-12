@@ -12,5 +12,3 @@ model prop = send[a].recv[b] | recv[a].send[b]
 
 property finished = !empty()
 property eq = !equal(send)
-
-check

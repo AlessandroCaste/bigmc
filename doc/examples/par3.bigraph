@@ -7,5 +7,3 @@ active d  0
 rule r = a | b -> a | b
 
 model par3 = a | b | a | b | a | b | c
-
-check

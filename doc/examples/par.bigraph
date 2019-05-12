@@ -6,5 +6,3 @@ active c  0
 rule r = a | $0 | c -> $0
 
 model par = a | b.(a | b | c) | c
-
-check

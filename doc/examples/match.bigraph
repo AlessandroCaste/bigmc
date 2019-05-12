@@ -9,7 +9,3 @@ rule r1 = a.b.c.$0 -> c.$0
 rule r2 = c.d.$0 -> c.$0
 
 model match = a.b.c.a.b.c.a.b.c.d.a.b.c
-
-
-
-check

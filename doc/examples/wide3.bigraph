@@ -7,5 +7,3 @@ controls:
 rule r = a.$0 || a.$1 -> b.$0 || c.$1
 
 model wide3 = a.a.a | a.a.a
-
-check

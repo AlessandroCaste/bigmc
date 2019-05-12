@@ -6,6 +6,3 @@ controls:
 rule r = a | b | $0 -> b | $0
 
 model foo = a | a | a | b | a | a | a
-
-
-check

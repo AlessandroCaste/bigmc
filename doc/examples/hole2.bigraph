@@ -6,5 +6,3 @@ controls:
 rule r = a.(b | $0) -> a.(b.c | $0)
 
 model hole2 = a.b
-
-check

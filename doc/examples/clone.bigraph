@@ -15,6 +15,3 @@ rule end = s.s.s.$0 -> DONE
 model clone = LEFT.(l.s.s.z | r.s.s.z) | RIGHT.(l.s.z | r.s.z) 
 
 property bug = !matches(RIGHT.(l.s.s.s.s.z.nil | r.z.nil))
-
-check
-

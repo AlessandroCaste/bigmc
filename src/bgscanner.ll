@@ -121,9 +121,6 @@ IDENTR	[a-zA-Z0-9_]
 "!"		            {
                     return LNOT;
 		              }
-"check"           {
-                    yyterminate();
-                  }
 ":"               {
                     return COLON;
                   }

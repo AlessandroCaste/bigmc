@@ -8,5 +8,3 @@ controls:
 rule r = a -> b
 
 model unordered = e.(d | a | b.(c | b))
-
-check

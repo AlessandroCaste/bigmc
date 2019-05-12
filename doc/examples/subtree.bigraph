@@ -8,6 +8,3 @@ controls:
 rule r = a -> b
 
 model subtree = d.(e.(d | b.(b | c) | a) | b.(b | c))
-
-
-check

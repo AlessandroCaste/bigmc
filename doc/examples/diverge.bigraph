@@ -8,6 +8,3 @@ rule r2 = a.a.b -> a
 rule r3 = a.$0 -> c.$0
 
 model diverge = a.b
-
-
-check

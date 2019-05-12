@@ -8,6 +8,3 @@ rule r1 = Plus.(Succ.$0 | $1) | Res.$2 -> Plus.($0 | $1) | Res.Succ.$2
 rule r2 = Plus.(Zero | Zero) -> Zero
 
 model unary = Plus.(Succ.Succ.Succ.Zero | Succ.Succ.Zero) | Res.Zero
-
-check
-

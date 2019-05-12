@@ -87,10 +87,6 @@ void parser_import(char *module) {
 	}
 }
 
-void check_warn() {
-	fprintf(stderr, "Error: your model file doesn't have a '%%check' directive, so it won't do anything! Exiting...\n");
-}
-
 int parser_next_char() {
 	if(g_inputbuffer_len > g_inputbuffer_offset && 
 		g_inputbuffer[g_inputbuffer_offset] != EOF &&
@@ -140,10 +136,13 @@ int parser_next_char() {
 			return EOF;
 		}
 
+		// Scan when file ends
 		if(fgets(g_inputbuffer, 8192, g_fp) == NULL) {
 			g_userbreak = true;
-			if(!g_has_check) check_warn();
-			exit(1);
+			return EOF;
+
+			//g_parsetree.clear(); // TODO free memory here!
+
 		}
 
 		g_inputbuffer_len = strlen(g_inputbuffer);
@@ -157,13 +156,6 @@ int parser_next_char() {
 
 	if(strncmp("exit",g_inputbuffer,4) == 0 || strncmp("quit",g_inputbuffer,4) == 0) {
 		exit(0);
-	}
-
-	if(strncmp("check",g_inputbuffer,5) == 0 || strncmp("check;",g_inputbuffer,6) == 0 ||
-	   strncmp("%check",g_inputbuffer,6) == 0 || strncmp("%check;",g_inputbuffer,7) == 0) {
-		return EOF;
-		
-		//g_parsetree.clear(); // TODO free memory here!
 	}
 
 	return g_inputbuffer[g_inputbuffer_offset++];

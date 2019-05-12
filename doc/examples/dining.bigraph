@@ -34,5 +34,3 @@ model dining = F[F1] | P[F1,P1,F2] | F[F2] | P[F2,P2,F3] | F[F3] | P[F3,P3,F4] |
 
 property deadlock_free = !terminal()
 
-check
-
