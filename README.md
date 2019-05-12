@@ -15,10 +15,10 @@ sudo apt-get install autoconf
 sudo apt-get install libtool
 sudo apt-get install google-perftools
 sudo apt-get install flex bison
-sudo apt-get libreadline8
-sudo apt-get libreadline-dev
-sudo apt-get texinfo
-sudo apt-get g++ 
+sudo apt-get install libreadline8
+sudo apt-get install libreadline-dev
+sudo apt-get install texinfo
+sudo apt-get install g++ 
 ```
 
 ## Installation
