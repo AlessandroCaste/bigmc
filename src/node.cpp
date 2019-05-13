@@ -26,6 +26,9 @@ using namespace std;
 #include <assert.h>
 #include <bigmc.h>
 
+// This set contains the properties that have been matched
+set<string> properties;
+
 node::node(bigraph *b, node *psrc, reactionrule *r) {
 	parent = psrc;
 	bg = b;
@@ -59,5 +62,28 @@ void node::set_visited(bool v) {
 
 bool node::is_visited() {
 	return visited;
+}
+
+void node::add_property(string property) {
+	properties.insert(property);
+}
+
+string node::get_properties() {
+	string s;
+	if(properties.size() > (0)) {
+		s += "Properties:";
+		std::set<string>::iterator i = properties.begin();
+		while(i!=properties.end()) {
+			s += " " + (*i);
+			i++;
+		}
+		s += "\n";
+	}
+	return s;
+}
+
+string node::print_node(int step) {
+	string s = "State " + std::to_string(step) + " : " + (bg->get_root(0)->to_string()) + "\n" + get_properties();
+	return s;
 }
 

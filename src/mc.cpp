@@ -136,14 +136,16 @@ bool mc::check_properties(node *n) {
 
 	for(map<string,query*>::iterator i = properties.begin(); i!=properties.end(); i++) {
 		if(!i->second->check(n)) {
-			// Failed
+			/****This was the old behavior for property violation: now execution doesn't stop****
 			cout << "*** Found violation of property: " << i->first << endl;
 			cout << "*** " << i->first << ": " << i->second->to_string() << endl;
 			if(!global_cfg.check_local) cout << g->backtrace(n);
 			else cout << "[Backtrace unavailable in local checking mode]" << endl;
-
-			return false;
+			*************************************************************************************/
+		} else {
+			n->add_property(i->first);
 		}
+		
 	}
 
 	n->set_visited(true);
@@ -331,6 +333,8 @@ bool mc::step(int id) {
 		rinfo("mc::step") << "Counter-example found." << endl;
 		return false;
 	}
+
+	cout << n->print_node(step);
 
 	if(global_cfg.check_local)
 		delete n;

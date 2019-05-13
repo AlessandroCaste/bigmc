@@ -1,0 +1,18 @@
+controls:
+    active A 1
+    active B 0
+    active C 0
+    passive D 0
+
+names:
+    outer Jack
+
+rule r1 = A[Jack] -> B
+rule r2 = B -> C
+rule r3 = C -> D
+
+
+model m = A[Jack] | B
+
+property p1 = matches(B)
+property p2 = matches(C)
