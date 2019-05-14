@@ -150,7 +150,7 @@ string graph::dump_dot() {
 }
 
 
-string graph::dump_dot_forward() {
+string graph:: dump_dot_forward() {
 	if(global_cfg.graph_out == NULL) return "";
 
 	stringstream out;

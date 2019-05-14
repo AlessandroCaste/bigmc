@@ -55,6 +55,7 @@ public:
 extern vector<parsenode *> g_declaration;
 int parser_next_char();
 void parser_add_result(parsenode *p);
+void parser_save_modelname(char * modelname);
 void parser_import(char *module);
 int yylex();
 int yyparse();

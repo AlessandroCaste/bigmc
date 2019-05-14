@@ -104,8 +104,8 @@ RULE IDENT ASSIGNMENT exp ARROW exp reactions  	{ rnode = new reactionnode($4,$6
 
 
 model
-: MODEL IDENT ASSIGNMENT exp properties				{ parser_add_result($4); $$ = $4; }
-| MODEL IDENT ASSIGNMENT exp						{ parser_add_result($4); $$ = $4; }
+: MODEL IDENT ASSIGNMENT exp properties				{ parser_add_result($4); $$ = $4; parser_save_modelname($2); }
+| MODEL IDENT ASSIGNMENT exp						{ parser_add_result($4); $$ = $4; parser_save_modelname($2); }
 ;
 
 exp

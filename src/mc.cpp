@@ -95,6 +95,8 @@ bool mc::check() {
 		thread_wrapper(i);
 		rinfo("mc::check") << "Complete!" << endl;
 		cout << report(steps) << endl;
+		// Outputting the transition system to file
+		print_log();
 
 		return false;
 	}
@@ -119,6 +121,8 @@ bool mc::check() {
 
 	rinfo("mc::check") << "Complete!" << endl;
 	cout << report(steps) << endl;
+	// Outputting the transition system to file
+	print_log();
 
 	#else
 	mc_id *i = new mc_id;
@@ -130,6 +134,7 @@ bool mc::check() {
 	return false;
 }
 
+// Execution always continues in modified bigmc
 bool mc::check_properties(node *n) {
 	if(n->is_visited()) return true;
 
@@ -193,6 +198,10 @@ bool mc::step(int id) {
 		#else
 		rinfo("mc::step") << "Complete!" << endl;
 		cout << report(step) << endl;
+
+		// Outputting the transition system to file
+		print_log();
+
 		match_gc();
 		// TODO: sound the alarms and release the balloons at this point.
 		exit(0);
@@ -369,7 +378,9 @@ void mc::match_gc() {
 
 
 void mc::print_log() {
-	FILE *fp = fopen("temp", "w");
+	string modelname = global_cfg.model_name;
+	modelname += "_transition";
+	FILE *fp = fopen(modelname.c_str(), "w");
 	if(!fp) {
 		cerr << "Error: could not open graph file " << "temp" << " for writing\n";
 	}
@@ -378,3 +389,4 @@ void mc::print_log() {
 	fclose(fp);	
 	/*****************************************************************************/
 }
+

@@ -205,6 +205,10 @@ void add_result(parsenode *p) {
 	g_parsetree.push_back(p);
 } 
 
+void parser_save_modelname(char * modelname) {
+	global_cfg.model_name = modelname;
+}
+
 term *parser::bg_mknode(prefixnode *p) {
 	if(DEBUG) fprintf(stderr, "BUG: parser::bg_mknode(prefixnode): ");
 	assert(p != NULL);

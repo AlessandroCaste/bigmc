@@ -1,18 +1,17 @@
-controls:
-    active A 1
-    active B 0
-    active C 0
-    passive D 0
+State 1 : (A[Jack].nil | B.nil)
+Properties: p1
+State 2 : (B.nil | B.nil)
+Properties: p1
+State 3 : (A[Jack].nil | C.nil)
+Properties: p2
+State 4 : (C.nil | B.nil)
+Properties: p1 p2
+State 5 : (A[Jack].nil | D.nil)
+State 6 : (C.nil | C.nil)
+Properties: p2
+State 7 : (D.nil | B.nil)
+Properties: p1
+State 8 : (C.nil | D.nil)
+Properties: p2
+State 9 : (D.nil | D.nil)
 
-names:
-    outer Jack
-
-rule r1 = A[Jack] -> B
-rule r2 = B -> C
-rule r3 = C -> D
-
-
-model m = A[Jack] | B
-
-property p1 = matches(B)
-property p2 = matches(C)

@@ -30,6 +30,7 @@ struct global_config {
 	char *graph_out;
 	bool check_local;
 	char *model_file;
+	char *model_name;
 	char *bigmc_home;
 	int threads;
 	bool print_mode;
