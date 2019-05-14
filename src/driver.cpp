@@ -36,7 +36,8 @@ void driver::check(bigraph *b) {
 	mc *m = new mc(b);
 
 	m->check();
-	
+	// Outputting a log file
+	mc::print_log();
 	delete m;
 
 	query_predicate::cleanup();

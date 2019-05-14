@@ -45,7 +45,7 @@ struct mc_id {
 
 map<string,query*> mc::properties;
 set<match *> mc::match_discard;
-
+string mc::log;
 // This function seems like a relic of an abandoned idea
 //void add_calculation(bigraph *b) {
 //	;
@@ -55,7 +55,6 @@ mc::mc(bigraph *b) {
 //	if(global_cfg.calculation) {
 //		add_calculation(b);
 //	}
-
 	node *n = new node(b,NULL,NULL);
 	g = new graph(n);
 	workqueue.push_back(n);
@@ -333,8 +332,9 @@ bool mc::step(int id) {
 		rinfo("mc::step") << "Counter-example found." << endl;
 		return false;
 	}
-
-	cout << n->print_node(step);
+	
+	/* This prints the generated transition system to string 'buffer' log */
+	mc::log += n->print_node(step);
 
 	if(global_cfg.check_local)
 		delete n;
@@ -367,3 +367,14 @@ void mc::match_gc() {
 	if(REPORT(1)) rinfo("mc::match_gc") << "Destroyed " << count << " objects" << endl;
 }
 
+
+void mc::print_log() {
+	FILE *fp = fopen("temp", "w");
+	if(!fp) {
+		cerr << "Error: could not open graph file " << "temp" << " for writing\n";
+	}
+	fprintf(fp, "%s\n", mc::log.c_str());
+
+	fclose(fp);	
+	/*****************************************************************************/
+}

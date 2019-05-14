@@ -63,3 +63,8 @@ INSTALL
 .vscode/ipch/47053062bb191b64/test-matcher.ipch
 .vscode/ipch/880e4586817f55e0/bgscanner.ipch
 .vscode/ipch/726d0a4a05e8f555/bgparser.ipch
+.vscode/settings.json
+.vscode/ipch/2ed44d0b673ffaca/test-matcher.ipch
+.vscode/ipch/8b2309b2ee960ec3/logger.ipch
+doc/examples/temp
+.vscode/ipch/afc1bafc6bec9eb0/logger.ipch

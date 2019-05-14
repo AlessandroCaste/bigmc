@@ -34,10 +34,12 @@ public:
 	mc(bigraph *b);
 	~mc();
 	bool check();
+	static string log;
 	string report(int step);
 	bool step(int tid);
 	static void add_property(string s, query *q);
 	bool check_properties(node *n);
+	static void print_log();
 	static void *thread_wrapper( void *i );
 	static void match_mark_delete( match *m );
 	static void match_gc();
