@@ -281,7 +281,7 @@ bool bigraph::is_free(name n) {
 	else if(variables.find(n) != variables.end())
 		return true;
 	else {
-		rerror("bigraph::is_free") << "Ports in reaction rules are either scoped variables or declared names" << endl;
+		rerror("bigraph::is_free") << "Ports in reaction rules/properties are either scoped variables or declared names" << endl;
 		exit(1);
 	}
 

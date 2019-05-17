@@ -135,8 +135,8 @@ bool mc::check() {
 }
 
 // Execution always continues in modified bigmc
-bool mc::check_properties(node *n) {
-	if(n->is_visited()) return true;
+void mc::check_properties(node *n) {
+	if(n->is_visited()) return;
 
 	for(map<string,query*>::iterator i = properties.begin(); i!=properties.end(); i++) {
 		if(!i->second->check(n)) {
@@ -153,12 +153,12 @@ bool mc::check_properties(node *n) {
 	}
 
 	n->set_visited(true);
-	return true;
+	return;
 }
 
 string mc::report(int step) {
 	stringstream out;
-	rinfo("mc::report") << "[q: " << workqueue.size() << " / g: " << g->size() << "] @ " << step;
+	rinfo("mc::report") << "[q: " << workqueue.size() << " / g: " << g->size() << "] Number of steps : " << step;
 	g->dump_dot_forward();
 	return out.str();
 }
@@ -216,6 +216,7 @@ bool mc::step(int id) {
 	}
 
 	node *n = workqueue.front();
+
 	workqueue.pop_front();
 
 	if(DEBUG)
@@ -337,10 +338,7 @@ bool mc::step(int id) {
 		cout << step << ": " << n->bg->get_root(0)->to_string() << endl;
 	}
 	
-	if(!check_properties(n)) {
-		rinfo("mc::step") << "Counter-example found." << endl;
-		return false;
-	}
+	check_properties(n);
 	
 	/* This prints the generated transition system to string 'buffer' log */
 	mc::log += n->print_node(step);
@@ -379,7 +377,7 @@ void mc::match_gc() {
 
 void mc::print_log() {
 	string modelname = global_cfg.model_name;
-	modelname += "_transition";
+	modelname += ".transition";
 	FILE *fp = fopen(modelname.c_str(), "w");
 	if(!fp) {
 		cerr << "Error: could not open graph file " << "temp" << " for writing\n";
