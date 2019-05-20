@@ -95,8 +95,6 @@ bool mc::check() {
 		thread_wrapper(i);
 		rinfo("mc::check") << "Complete!" << endl;
 		cout << report(steps) << endl;
-		// Outputting the transition system to file
-		print_log();
 
 		return false;
 	}
@@ -121,8 +119,7 @@ bool mc::check() {
 
 	rinfo("mc::check") << "Complete!" << endl;
 	cout << report(steps) << endl;
-	// Outputting the transition system to file
-	print_log();
+
 
 	#else
 	mc_id *i = new mc_id;
