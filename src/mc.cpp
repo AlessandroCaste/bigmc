@@ -119,7 +119,10 @@ bool mc::check() {
 
 	rinfo("mc::check") << "Complete!" << endl;
 	cout << report(steps) << endl;
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin
 
 	#else
 	mc_id *i = new mc_id;
@@ -144,7 +147,7 @@ void mc::check_properties(node *n) {
 			else cout << "[Backtrace unavailable in local checking mode]" << endl;
 			*************************************************************************************/
 		} else {
-			n->add_property(i->first);
+			n->bg->add_property(i->first);
 		}
 		
 	}
@@ -195,9 +198,6 @@ bool mc::step(int id) {
 		#else
 		rinfo("mc::step") << "Complete!" << endl;
 		cout << report(step) << endl;
-
-		// Outputting the transition system to file
-		print_log();
 
 		match_gc();
 		// TODO: sound the alarms and release the balloons at this point.
@@ -336,9 +336,6 @@ bool mc::step(int id) {
 	}
 	
 	check_properties(n);
-	
-	/* This prints the generated transition system to string 'buffer' log */
-	mc::log += n->print_node(step);
 
 	if(global_cfg.check_local)
 		delete n;
@@ -370,18 +367,3 @@ void mc::match_gc() {
 
 	if(REPORT(1)) rinfo("mc::match_gc") << "Destroyed " << count << " objects" << endl;
 }
-
-
-void mc::print_log() {
-	string modelname = global_cfg.model_name;
-	modelname += ".transition";
-	FILE *fp = fopen(modelname.c_str(), "w");
-	if(!fp) {
-		cerr << "Error: could not open graph file " << "temp" << " for writing\n";
-	}
-	fprintf(fp, "%s\n", mc::log.c_str());
-
-	fclose(fp);	
-	/*****************************************************************************/
-}
-

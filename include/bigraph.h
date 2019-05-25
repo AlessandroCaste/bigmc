@@ -30,6 +30,7 @@ class bigraph {
 	set<name> inner;
 	set<name> outer;
 	set<reactionrule *> rules;
+	set<string> properties;
 public:
 	static map<string,name> name_map;
 	static map<string,control> control_map;
@@ -61,6 +62,11 @@ public:
 	static bool is_free(name n);
 	bigraph *apply_match(match *m);
 	string to_string();
+	
+	// Property printing
+	void add_property(string property);
+	string get_properties();
+	bool has_properties();
 };
 
 

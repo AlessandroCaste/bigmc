@@ -32,7 +32,6 @@ public:
 	reactionrule *rule;
 	bigraph *bg;
 	set<pair<node *,reactionrule *> > target;
-	set<string> properties;
 	node(bigraph *b, node *psrc, reactionrule *r);
 	~node();
 	void add_target(node *n, reactionrule *r);
@@ -40,11 +39,6 @@ public:
 	void set_visited(bool v);
 	bool is_visited();
 	bool terminal;
-
-	// These are required to print out a model
-	string print_node(int step);
-	void add_property(string property);
-	string get_properties();
 };
 
 #endif

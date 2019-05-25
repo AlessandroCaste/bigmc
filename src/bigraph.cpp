@@ -290,3 +290,27 @@ bool bigraph::is_free(name n) {
 set<reactionrule *> bigraph::get_rules() {
 	return rules;
 }
+
+void bigraph::add_property(string property) {
+	properties.insert(property);
+}
+
+string bigraph::get_properties() {
+	string s;
+	std::set<string>::iterator i = properties.begin();
+	while(i!=properties.end()) {
+		if(std::next(i) == properties.end())
+			s += (*i);
+		else
+			s += (*i) + ",";
+		i++;
+	}
+	return s;
+}
+
+bool bigraph::has_properties() {
+	if(properties.size()>0)
+		return true;
+	else 
+		return false;
+}

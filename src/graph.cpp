@@ -164,7 +164,11 @@ string graph:: dump_dot_forward() {
 
 	stringstream coda;
 
-	out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled, label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
+	if(root->bg->has_properties())
+		out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled,properties=\" " << root->bg->get_properties() <<", label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
+	else
+		out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled, label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
+
 
 	for(set<node *>::iterator i = nodes.begin(); i!=nodes.end(); i++) {
 		if(DEBUG)
@@ -172,11 +176,17 @@ string graph:: dump_dot_forward() {
 		string rr = "root";
 
 		string dc = "shape = none, ";
+		string properties;
+
+		if((*i)->bg->has_properties())
+			properties = "properties=\"" + (*i)->bg->get_properties() + "\"";
+		else
+			properties = "";
 
 		if((*i)->terminal)
 			dc = "shape = doubleoctagon, color=darkolivegreen3, style=filled, ";
 
-		out << "N_" << (*i)->hash << " [ " << dc << "label=\"" << (*i)->bg->get_root(0)->to_string() << "\"];" << endl;
+		out << "N_" << (*i)->hash << " [ " << dc << properties << ", label=\"" << (*i)->bg->get_root(0)->to_string() << "\"," << "];" << endl;
 
 		for(set<pair<node *, reactionrule *> >::iterator j = (*i)->target.begin();
 			j != (*i)->target.end(); j++) {
