@@ -179,14 +179,15 @@ string graph:: dump_dot_forward() {
 		string properties;
 
 		if((*i)->bg->has_properties())
-			properties = "properties=\"" + (*i)->bg->get_properties() + "\"";
+			properties = "properties=\"" + (*i)->bg->get_properties() + "\", ";
 		else
 			properties = "";
 
 		if((*i)->terminal)
 			dc = "shape = doubleoctagon, color=darkolivegreen3, style=filled, ";
 
-		out << "N_" << (*i)->hash << " [ " << dc << properties << ", label=\"" << (*i)->bg->get_root(0)->to_string() << "\"," << "];" << endl;
+		out << "N_" << (*i)->hash << " [ " << dc << properties << "label=\"" << (*i)->bg->get_root(0)->to_string() << "\"," << "];" << endl;
+
 
 		for(set<pair<node *, reactionrule *> >::iterator j = (*i)->target.begin();
 			j != (*i)->target.end(); j++) {
