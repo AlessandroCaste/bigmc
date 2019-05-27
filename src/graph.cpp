@@ -186,7 +186,7 @@ string graph:: dump_dot_forward() {
 		if((*i)->terminal)
 			dc = "shape = doubleoctagon, color=darkolivegreen3, style=filled, ";
 
-		out << "N_" << (*i)->hash << " [ " << dc << properties << "label=\"" << (*i)->bg->get_root(0)->to_string() << "\"," << "];" << endl;
+		out << "N_" << (*i)->hash << " [ " << dc << properties << "label=\"" << (*i)->bg->get_root(0)->to_string() << "\"" << "];" << endl;
 
 
 		for(set<pair<node *, reactionrule *> >::iterator j = (*i)->target.begin();
