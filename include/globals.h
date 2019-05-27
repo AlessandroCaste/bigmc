@@ -36,6 +36,7 @@ struct global_config {
 	bool print_mode;
 	bool analyse_only;
 	bool calculation;
+	bool print_transition;
 };
 
 extern global_config global_cfg; 

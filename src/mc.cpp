@@ -158,7 +158,8 @@ void mc::check_properties(node *n) {
 
 string mc::report(int step) {
 	stringstream out;
-	rinfo("mc::report") << "[q: " << workqueue.size() << " / g: " << g->size() << "] Number of steps : " << step;
+	if(global_cfg.print_transition == false) 
+		rinfo("mc::report") << "[q: " << workqueue.size() << " / g: " << g->size() << "] Number of steps : " << step;
 	g->dump_dot_forward();
 	return out.str();
 }
@@ -196,8 +197,9 @@ bool mc::step(int id) {
 		return false;
 
 		#else
-		rinfo("mc::step") << "Complete!" << endl;
 		cout << report(step) << endl;
+		if(global_cfg.print_transition == false)
+			rinfo("mc::step") << "Complete!" << endl;
 
 		match_gc();
 		// TODO: sound the alarms and release the balloons at this point.

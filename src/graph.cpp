@@ -151,7 +151,7 @@ string graph::dump_dot() {
 
 
 string graph:: dump_dot_forward() {
-	if(global_cfg.graph_out == NULL) return "";
+	if(global_cfg.graph_out == NULL && !global_cfg.print_transition) return "";
 
 	stringstream out;
 
@@ -212,15 +212,18 @@ string graph:: dump_dot_forward() {
 	out << coda.str();
 	out << "}" << endl;
 
-	FILE *fp = fopen(global_cfg.graph_out, "w");
-	if(!fp) {
-		cerr << "Error: could not open graph file " << global_cfg.graph_out << " for writing\n";
-		return "";
+	if(global_cfg.print_transition)
+		cout << out.str().c_str();
+		
+    if(global_cfg.graph_out != NULL) {
+		FILE *fp = fopen(global_cfg.graph_out, "w");
+		if(!fp) {
+			cerr << "Error: could not open graph file " << global_cfg.graph_out << " for writing\n";
+			return "";
+		}
+		fprintf(fp, "%s\n", out.str().c_str());
+		fclose(fp);
 	}
-
-	fprintf(fp, "%s\n", out.str().c_str());
-
-	fclose(fp);
 
 	return out.str();
 

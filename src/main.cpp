@@ -30,6 +30,7 @@ void print_usage(char **argv) {
 	"\t-m x\tSpecify x maximum steps of graph unfolding (default: 1000)\n"
 	"\t-p\tPrint new states as they are discovered.\n"
 	"\t-l\tLocal check mode - do not build the reaction graph.\n"
+	"\t-s\tPrint .dot transition file to terminal\n"
 	"\t-r x\tOutput statistics and graphs every x steps (default: 500)\n"
 	"\t-v\tPrint version information and exit\n",
 	argv[0]);
@@ -164,11 +165,12 @@ int main(int argc, char**argv) {
 	global_cfg.threads = 2;
 	global_cfg.print_mode = false;
 	global_cfg.analyse_only = false;
+	global_cfg.print_transition = false;
 
 //  The idea behind this flag had not been implemented
 //	global_cfg.calculation = false;
 
-	while ((c = getopt (argc, argv, "hvVAlpdm:G:r:t:")) != -1)
+	while ((c = getopt (argc, argv, "hvVAlpdsm:G:r:t:")) != -1)
 		switch (c) {
 		case 'h':
 			print_usage(argv);
@@ -202,6 +204,9 @@ int main(int argc, char**argv) {
 			break;
 		case 'l':
 			global_cfg.check_local = true;
+			break;
+		case 's':
+			global_cfg.print_transition = true;
 			break;
 		case '?':
 			if (isprint (optopt))
