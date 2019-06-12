@@ -93,7 +93,7 @@ bool mc::check() {
 		i->data = this;
 		i->id = 0;
 		thread_wrapper(i);
-		rinfo("mc::check") << "Complete!" << endl;
+		rinfo("bigmc::check") << "Complete!" << endl;
 		cout << report(steps) << endl;
 
 		return false;
@@ -102,7 +102,7 @@ bool mc::check() {
 	pthread_t *threads = new pthread_t[global_cfg.threads];
 	for(int i = 0; i<global_cfg.threads; i++) {
 		if(REPORT(1)) 
-			rinfo("mc::check") << "Worker thread #" << i << " started" << endl;
+			rinfo("bigmc::check") << "Worker thread #" << i << " started" << endl;
 
 		mc_id *id = new mc_id;
 		id->data = this;
@@ -114,10 +114,10 @@ bool mc::check() {
 	for(int i = 0; i<global_cfg.threads; i++) {
 		pthread_join(threads[i], NULL);
 		if(REPORT(1))
-			rinfo("mc::check") << "Worker thread #" << i << " finished" << endl;
+			rinfo("bigmc::check") << "Worker thread #" << i << " finished" << endl;
 	}
 
-	rinfo("mc::check") << "Complete!" << endl;
+	rinfo("bigmc::check") << "Complete!" << endl;
 	cout << report(steps) << endl;
 <<<<<<< HEAD
 =======
@@ -158,8 +158,7 @@ void mc::check_properties(node *n) {
 
 string mc::report(int step) {
 	stringstream out;
-	if(global_cfg.print_transition == false) 
-		rinfo("mc::report") << "[q: " << workqueue.size() << " / g: " << g->size() << "] Number of steps : " << step;
+	rinfo("bigmc::report") << "[Workqueue size: " << workqueue.size() << " / Graph size: " << g->size() << "] Number of steps : " << step << endl;
 	g->dump_dot_forward();
 	return out.str();
 }
@@ -167,8 +166,8 @@ string mc::report(int step) {
 // returns true while there is work to do
 bool mc::step(int id) {
 	if(steps >= global_cfg.max_steps) {
-		rinfo("mc::step") << "Interrupted!  Reached maximum steps: " << global_cfg.max_steps << endl;
-		cout << report(steps) << endl;
+		rinfo("bigmc::step") << "Interrupted!  Reached maximum steps: " << global_cfg.max_steps << endl;
+		cout << report(steps);
 		return false;
 	}
 
@@ -197,9 +196,8 @@ bool mc::step(int id) {
 		return false;
 
 		#else
-		cout << report(step) << endl;
-		if(global_cfg.print_transition == false)
-			rinfo("mc::step") << "Complete!" << endl;
+		cout << report(step);
+		rinfo("bigmc::step") << "Complete!" << endl;
 
 		match_gc();
 		// TODO: sound the alarms and release the balloons at this point.
@@ -330,7 +328,7 @@ bool mc::step(int id) {
 	match_gc();
 
 	if(global_cfg.report_interval > 0 && step % global_cfg.report_interval == 0) {
-		cout << report(step) << endl;
+		cout << report(step);
 	}
 
 	if(global_cfg.print_mode) {
