@@ -153,8 +153,8 @@ string graph:: dump_dot_forward() {
 	if(global_cfg.graph_out == NULL && !global_cfg.print_transition) return "";
 
 	stringstream out;
-
-	out << "Transition system:" << endl;
+	if(global_cfg.print_transition)
+		out << "Transition system:" << endl;
 	out << "digraph reaction_graph {" << endl;
 	out << "   rankdir=LR;" << endl;
 	//string terminals = "LR_1 LR_2 LR_3";
@@ -211,7 +211,8 @@ string graph:: dump_dot_forward() {
 
 	out << coda.str();
 	out << "}" << endl;
-	out << "End of the transition system" << endl;
+	if(global_cfg.print_transition)
+		out << "End of the transition system" << endl;
 
 	if(global_cfg.print_transition)
 		cout << out.str().c_str();
