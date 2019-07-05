@@ -9,4 +9,4 @@ rule evolution = send[@x].$0 | recv[@x].$1 | $2 -> $0 | $1 | $2
 
 model ccs2 = send[a].recv[a].recv[a] | recv[a].send[a].send[a] | send[a].recv[a].recv[a]
 
-property shrink = $pred->empty() || size() < $pred->size()
+marker shrink = $pred->empty() || size() < $pred->size()

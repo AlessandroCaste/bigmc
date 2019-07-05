@@ -7,4 +7,4 @@ rule r = a.$1 | $0 -> c.$1 | $0
 
 model matches = a.b | a.c
 
-property cc = !matches(c.c)
+marker cc = !matches(c.c)

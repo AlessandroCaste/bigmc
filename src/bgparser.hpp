@@ -52,7 +52,7 @@ extern int yydebug;
     UNKNOWN = 258,
     CONTROLS = 259,
     NAMES = 260,
-    PROPERTY = 261,
+    MARKER = 261,
     MODEL = 262,
     RULE = 263,
     SEMI = 264,
@@ -100,7 +100,7 @@ extern int yydebug;
 #define UNKNOWN 258
 #define CONTROLS 259
 #define NAMES 260
-#define PROPERTY 261
+#define MARKER 261
 #define MODEL 262
 #define RULE 263
 #define SEMI 264

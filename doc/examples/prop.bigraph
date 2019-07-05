@@ -10,5 +10,5 @@ rule r = send[@x].$0 | recv[@x].$1 -> $0 | $1
 
 model prop = send[a].recv[b] | recv[a].send[b]
 
-property finished = !empty()
-property eq = !equal(send)
+marker finished = !empty()
+marker eq = !equal(send)

@@ -106,9 +106,9 @@ IDENTR	[a-zA-Z0-9_]
 "passive"         {
                     return PASSIVE;
                   }
-"property"      {
-                    return PROPERTY;
-                  }
+"marker"          {
+                    return MARKER;
+                  }                
 "rule"		        {
 		                return RULE;
 		              }

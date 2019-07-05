@@ -119,10 +119,6 @@ bool mc::check() {
 
 	rinfo("bigmc::check") << "Complete!" << endl;
 	cout << report(steps) << endl;
-<<<<<<< HEAD
-=======
-
->>>>>>> origin
 
 	#else
 	mc_id *i = new mc_id;

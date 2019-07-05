@@ -48,7 +48,7 @@ reactionnode *rnode;
 %locations
 
 %token UNKNOWN
-%token CONTROLS NAMES PROPERTY MODEL RULE SEMI ARROW PAR PREF COMMA LSQ RSQ LPAR RPAR
+%token CONTROLS NAMES MARKER MODEL RULE SEMI ARROW PAR PREF COMMA LSQ RSQ LPAR RPAR
 %token INNER OUTER DPAR UNLINKED 
 %token ACTIVE PASSIVE COLON HOLE IDENT NUM
 %token LAND LOR LNOT FORALL EXISTS NIL 
@@ -137,8 +137,8 @@ expnames
 ;
 
 properties
-: PROPERTY IDENT ASSIGNMENT property properties	 { parser_add_result(new propertynode($2,$4)); }
-| PROPERTY IDENT ASSIGNMENT property			 { parser_add_result(new propertynode($2,$4)); }
+: MARKER IDENT ASSIGNMENT property properties	 { parser_add_result(new propertynode($2,$4)); }
+| MARKER IDENT ASSIGNMENT property			 { parser_add_result(new propertynode($2,$4)); }
 ;
 
 property

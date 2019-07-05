@@ -25,5 +25,5 @@ rule pickup_right = P[@lf,@rf].F[@lf] || F[@rf] -> P[@lf,@rf].(F[@lf] | F[@rf]) 
 
 model dining_nil = F[F1] | P[F1,F2] | F[F2] | P[F2,F3] | F[F3] | P[F3,F4] | F[F4] | P[F4,F5] | F[F5] | P[F5,F1]
 
-#property deadlock_free !terminal()
+#marker deadlock_free !terminal()
 

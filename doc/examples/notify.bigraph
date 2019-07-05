@@ -12,4 +12,4 @@ rule r4 = z.(u | f | $0) -> z.(u | f | n | $0)
 
 model notify = z.u | z.(z.(f | f) | z.f)
 
-property notify = !matches(n)
+marker notify = !matches(n)
