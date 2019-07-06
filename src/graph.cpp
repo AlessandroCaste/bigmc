@@ -163,7 +163,7 @@ string graph:: dump_dot_forward() {
 	stringstream coda;
 
 	if(root->bg->has_properties())
-		out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled,properties=\" " << root->bg->get_properties() <<", label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
+		out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled,properties=\"" << root->bg->get_properties() << "\", label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
 	else
 		out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled, label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
 
@@ -177,7 +177,7 @@ string graph:: dump_dot_forward() {
 		string properties;
 
 		if((*i)->bg->has_properties())
-			properties = "properties=\"" + (*i)->bg->get_properties() + "\", ";
+			properties = "properties=\"" + (*i)->bg->get_properties() + "\",";
 		else
 			properties = "";
 
