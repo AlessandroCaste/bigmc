@@ -167,15 +167,19 @@ string mc::report(int step) {
 
 // returns true while there is work to do
 bool mc::step(int id) {
-	/* if(steps >= global_cfg.max_steps) {
-		rinfo("bigmc::step") << "Interrupted!  Reached maximum steps: " << global_cfg.max_steps << endl;
-		cout << report(steps);
-		return false;
-	}*/
 
 	#ifdef HAVE_PTHREAD
 	pthread_mutex_lock( &mcmutex );
 	#endif
+	
+	if(steps >= global_cfg.max_steps) {
+		rinfo("bigmc::step") << "Interrupted!  Reached maximum steps: " << global_cfg.max_steps << endl;
+		cout << report(steps);
+		pthread_cond_broadcast(&cond);
+		pthread_mutex_unlock(&mcmutex);
+		return false;
+	}
+
 	
 	steps++;
 	int step = steps;
