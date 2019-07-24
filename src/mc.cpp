@@ -173,6 +173,8 @@ bool mc::step(int id) {
 	#endif
 	
 	if(steps >= global_cfg.max_steps) {
+		rinfo("bigmc::step") << "Interrupted!  Reached maximum steps: " << global_cfg.max_steps << endl;
+		cout << report(steps);
 		pthread_cond_broadcast(&cond);
 		pthread_mutex_unlock(&mcmutex);
 		return false;
