@@ -35,10 +35,6 @@ using namespace std;
 pthread_mutex_t mcmutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t wqmutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t gmutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-
-pthread_cond_t cond  = PTHREAD_COND_INITIALIZER;  // Condition indicating queue is full
-
 vector<bool> sigmbx;
 #endif
 
@@ -77,9 +73,7 @@ void *mc::thread_wrapper( void *i ) {
 	while(nc->data->step(nc->id))
 		;
 
-	pthread_mutex_lock(&gmutex);
-	match_discard.clear();
-	pthread_mutex_unlock(&gmutex);
+	match_gc();
 
 	return NULL;
 }
@@ -167,11 +161,11 @@ string mc::report(int step) {
 
 // returns true while there is work to do
 bool mc::step(int id) {
-	/* if(steps >= global_cfg.max_steps) {
+	if(steps >= global_cfg.max_steps) {
 		rinfo("bigmc::step") << "Interrupted!  Reached maximum steps: " << global_cfg.max_steps << endl;
 		cout << report(steps);
 		return false;
-	}*/
+	}
 
 	#ifdef HAVE_PTHREAD
 	pthread_mutex_lock( &mcmutex );
@@ -183,32 +177,29 @@ bool mc::step(int id) {
 	if(workqueue.size() == 0) {
 		// We can't see any more work to do...
 
-		if(global_cfg.threads > 1) {
+		#ifdef HAVE_PTHREAD
 
-			sigmbx[id] = true;
+		sigmbx[id] = true;
 
-			for(int i = 0; i<sigmbx.size(); i++) {
-				if(!sigmbx[i]) {
-					pthread_cond_wait(&cond,&mcmutex);
-					pthread_mutex_unlock(&mcmutex);
-					return true;
-				}
+		for(int i = 0; i<sigmbx.size(); i++) {
+			if(!sigmbx[i]) {
+				pthread_mutex_unlock( &mcmutex );
+				return true;
 			}
 		}
 
 		pthread_mutex_unlock( &mcmutex );
-		pthread_cond_broadcast(&cond);
 		return false;
 
-		if(global_cfg.threads <= 1) {
-			cout << report(step);
-			rinfo("bigmc::step") << "Complete!" << endl;
+		#else
+		cout << report(step);
+		rinfo("bigmc::step") << "Complete!" << endl;
 
-			match_gc();
-			// TODO: sound the alarms and release the balloons at this point.
-			exit(0);
-			return false; 
-		}
+		match_gc();
+		// TODO: sound the alarms and release the balloons at this point.
+		exit(0);
+		return false; 
+		#endif
 	} else {
 		#ifdef HAVE_PTHREAD
 
@@ -225,8 +216,6 @@ bool mc::step(int id) {
 		cout << "Hash: " << n->hash << " for: " << n->bg->to_string() << endl;
 
 	if(checked.find(n->hash) != checked.end()) {
-		pthread_mutex_unlock( &mcmutex );
-		pthread_cond_broadcast(&cond);
 		return true;
 	}
 
@@ -260,11 +249,7 @@ bool mc::step(int id) {
 			cout << "BUG: mc: match: " << (*it)->to_string() << endl;
 		}
 	
-		pthread_mutex_lock(&mcmutex);
-
 		bigraph *b2 = b->apply_match(*it);
-
-		pthread_mutex_unlock(&mcmutex);
 
 		termconsistencyvisitor *tcv = new termconsistencyvisitor();
 
@@ -286,11 +271,7 @@ bool mc::step(int id) {
 		}
 
 		if(!global_cfg.check_local) {
-
-			pthread_mutex_lock(&mcmutex);
 			node *n3 = g->get(n2->hash);
-			pthread_mutex_unlock(&mcmutex);
-
 			if(n3 != NULL) {
 				delete n2;
 				n2 = n3;
@@ -340,9 +321,7 @@ bool mc::step(int id) {
 
 	matches.clear();
 
-	pthread_mutex_lock(&wqmutex);
-	match_discard.clear();
-	pthread_mutex_unlock(&wqmutex);
+	match_gc();
 
 	if(global_cfg.report_interval > 0 && step % global_cfg.report_interval == 0) {
 		cout << report(step);
@@ -356,7 +335,7 @@ bool mc::step(int id) {
 
 	if(global_cfg.check_local)
 		delete n;
-	pthread_cond_broadcast(&cond);
+
 	return true;
 }
 
@@ -367,8 +346,20 @@ void mc::add_property(string s,query *q) {
 void mc::match_mark_delete( match *m ) {
 	assert(m != NULL);
 
-	pthread_mutex_lock(&wqmutex);
 	match_discard.insert(m);
-	pthread_mutex_unlock(&wqmutex);
+}
 
+void mc::match_gc() {
+	set<match *>::iterator i = match_discard.begin();
+
+	unsigned long count = match_discard.size();
+
+	while(i != match_discard.end()) {
+		delete *i;
+		i++;
+	}
+
+	match_discard.clear();
+
+	if(REPORT(1)) rinfo("mc::match_gc") << "Destroyed " << count << " objects" << endl;
 }

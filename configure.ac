@@ -21,8 +21,8 @@ doc/Makefile
 
 AC_PROG_LEX
 AC_PROG_YACC
-AC_CHECK_LIB([pthread], [pthread_create])
-AC_CHECK_LIB([tcmalloc], [malloc])
+#AC_CHECK_LIB([pthread], [pthread_create])
+#AC_CHECK_LIB([tcmalloc], [malloc])
 
 AC_ARG_WITH(
 	[readline],
@@ -58,7 +58,7 @@ AS_IF([test "x$with_readline" != xno],
 
 AC_HEADER_ASSERT
 
-AX_PTHREAD
+#AX_PTHREAD
 
 AC_OUTPUT
 
