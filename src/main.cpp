@@ -37,8 +37,9 @@ void print_usage(char **argv) {
 }
 
 void print_version() {
-	cout << "BigMC version " << PACKAGE_VERSION << " (http://bigraph.org/bigmc)\n";
-	cout << "Copyright (c) 2011 Gian Perrone <gdpe at itu.dk>\n";
+	cout << "BigMC version " << PACKAGE_VERSION << "\n";
+	cout << "Copyright (c) 2011 Gian Perrone <gdpe at itu.dk>. (http://bigraph.org/bigmc)\n";
+	cout << "Expanded version for Synkrisis toolchain support";
 }
 
 void config_read() {
