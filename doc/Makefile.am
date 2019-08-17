@@ -3,36 +3,36 @@ exampledir = @prefix@/doc/examples
 theorydir = @prefix@/doc/theory
 
 example_DATA = \
-examples/ccs.bigraph \
-examples/ccs2.bigraph \
-examples/diverge.bigraph \
-examples/diverge_prop.bigraph \
-examples/foo.bigraph \
-examples/foo2.bigraph \
-examples/foo3.bigraph \
-examples/hole.bigraph \
-examples/hole2.bigraph \
-examples/match.bigraph \
-examples/nil.bigraph \
-examples/par.bigraph \
-examples/par2.bigraph \
-examples/par3.bigraph \
-examples/par4.bigraph \
-examples/prop.bigraph \
-examples/subtree.bigraph \
-examples/terminal.bigraph \
-examples/unordered_subtree.bigraph \
-examples/wide.bigraph \
-examples/wide2.bigraph \
-examples/wide3.bigraph \
-examples/notify.bigraph \
-examples/airport.bigraph \
-examples/airport2.bigraph \
-examples/dining.bigraph \
-examples/dining_nil.bigraph \
-examples/dining_mutex.bigraph \
-examples/unary.bigraph \
-examples/link.bigraph
+examples/ccs.bigmc \
+examples/ccs2.bigmc \
+examples/diverge.bigmc \
+examples/diverge_prop.bigmc \
+examples/foo.bigmc \
+examples/foo2.bigmc \
+examples/foo3.bigmc \
+examples/hole.bigmc \
+examples/hole2.bigmc \
+examples/match.bigmc \
+examples/nil.bigmc \
+examples/par.bigmc \
+examples/par2.bigmc \
+examples/par3.bigmc \
+examples/par4.bigmc \
+examples/prop.bigmc \
+examples/subtree.bigmc \
+examples/terminal.bigmc \
+examples/unordered_subtree.bigmc \
+examples/wide.bigmc \
+examples/wide2.bigmc \
+examples/wide3.bigmc \
+examples/notify.bigmc \
+examples/airport.bigmc \
+examples/airport2.bigmc \
+examples/dining.bigmc \
+examples/dining_nil.bigmc \
+examples/dining_mutex.bigmc \
+examples/unary.bigmc \
+examples/link.bigmc
 
 theory_DATA = theory/match/match.sml 
 
