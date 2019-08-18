@@ -37,9 +37,10 @@ void print_usage(char **argv) {
 }
 
 void print_version() {
-	cout << "BigMC version " << PACKAGE_VERSION << "\n";
+	// Package was not edited in configure.ac to avoid incompatibilities and warning
+	cout << "BigMC version " << "201909" << "\n";
 	cout << "Copyright (c) 2011 Gian Perrone <gdpe at itu.dk>. (http://bigraph.org/bigmc)\n";
-	cout << "Expanded version for Synkrisis toolchain support";
+	cout << "Expanded version for Synkrisis toolchain support\n";
 }
 
 void config_read() {
