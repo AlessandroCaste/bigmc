@@ -40,6 +40,8 @@ public:
 	string backtrace(node *n);
 	string dump_dot();
 	string dump_dot_forward();
+	string dump_dot_forward_int(int i);
+	stringstream graphPrinting();
 };
 
 #endif

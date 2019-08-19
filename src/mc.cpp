@@ -60,6 +60,7 @@ mc::mc(bigraph *b) {
 	workqueue.push_back(n);
 	steps = 0;
 	analyse = new analyser(b);
+	interval_step = 0;
 }
 
 mc::~mc() {
@@ -156,6 +157,14 @@ string mc::report(int step) {
 	stringstream out;
 	rinfo("bigmc::report") << "[Workqueue size: " << workqueue.size() << " / Graph size: " << g->size() << "] Number of steps : " << step << endl;
 	g->dump_dot_forward();
+	return out.str();
+}
+
+string mc::report_int(int step) {
+	stringstream out;
+	rinfo("bigmc::report") << "[Workqueue size: " << workqueue.size() << " / Graph size: " << g->size() << "] Number of steps : " << step << endl;
+	g->dump_dot_forward_int(interval_step);
+	interval_step++;
 	return out.str();
 }
 
@@ -324,7 +333,7 @@ bool mc::step(int id) {
 	match_gc();
 
 	if(global_cfg.report_interval > 0 && step % global_cfg.report_interval == 0) {
-		cout << report(step);
+		cout << report_int(step);
 	}
 
 	if(global_cfg.print_mode) {

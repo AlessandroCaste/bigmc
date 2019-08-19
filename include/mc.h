@@ -30,12 +30,14 @@ class mc {
 	static map<string,query *> properties;
 	map<unsigned long,bool> checked;
 	static set<match *> match_discard;
+	int  interval_step;
 public:
 	mc(bigraph *b);
 	~mc();
 	bool check();
 	static string log;
 	string report(int step);
+	string report_int(int step);
 	bool step(int tid);
 	static void add_property(string s, query *q);
 	void check_properties(node *n);

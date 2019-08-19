@@ -149,10 +149,58 @@ string graph::dump_dot() {
 }
 
 
-string graph:: dump_dot_forward() {
-	if(global_cfg.graph_out == NULL && !global_cfg.print_transition) return "";
+string graph::dump_dot_forward() {
 
+	stringstream out = graphPrinting();
+
+
+	if(global_cfg.print_transition)
+		cout << out.str().c_str();
+		
+    if(global_cfg.graph_out != NULL) {
+		FILE *fp = fopen(global_cfg.graph_out, "w");
+		if(!fp) {
+			cerr << "Error: could not open graph file " << global_cfg.graph_out << " for writing\n";
+			return "";
+		}
+		fprintf(fp, "%s\n", out.str().c_str());
+		fclose(fp);
+	}
+
+	return out.str();
+
+}
+
+
+string graph::dump_dot_forward_int(int i){
+	stringstream out = graphPrinting();
+
+	if(global_cfg.print_transition)
+		cout << out.str().c_str();
+		
+    if(global_cfg.graph_out != NULL) {
+		stringstream outputFile;
+		outputFile << global_cfg.graph_out  << "-"  << i;
+		FILE *fp = fopen(outputFile.str().c_str(), "w");
+		if(!fp) {
+			cerr << "Error: could not open graph file " << global_cfg.graph_out << " for writing\n";
+			return "";
+		}
+		fprintf(fp, "%s\n", out.str().c_str());
+		fclose(fp);
+	}
+
+	return out.str();
+}
+
+stringstream graph::graphPrinting(){
 	stringstream out;
+
+	if(global_cfg.graph_out == NULL && !global_cfg.print_transition){
+		out << ""; 
+		return out;
+	} 
+
 	out << "digraph reaction_graph {" << endl;
 	out << "   rankdir=LR;" << endl;
 	//string terminals = "LR_1 LR_2 LR_3";
@@ -210,21 +258,5 @@ string graph:: dump_dot_forward() {
 	out << coda.str();
 	out << "}" << endl;
 
-
-	if(global_cfg.print_transition)
-		cout << out.str().c_str();
-		
-    if(global_cfg.graph_out != NULL) {
-		FILE *fp = fopen(global_cfg.graph_out, "w");
-		if(!fp) {
-			cerr << "Error: could not open graph file " << global_cfg.graph_out << " for writing\n";
-			return "";
-		}
-		fprintf(fp, "%s\n", out.str().c_str());
-		fclose(fp);
-	}
-
-	return out.str();
-
-	
+	return out;
 }
