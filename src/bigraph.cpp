@@ -273,18 +273,8 @@ string bigraph::to_string() {
 }
 
 bool bigraph::is_free(name n) {
-
-	if(n == 0) 
-		return false;
-	else if(names.find(n) != names.end() && variables.find(n) == variables.end())
-		return false;
-	else if(variables.find(n) != variables.end())
-		return true;
-	else {
-		rerror("bigraph::is_free") << "Ports in reaction rules/properties are either scoped variables or declared names" << endl;
-		exit(1);
-	}
-
+	if(n == 0) return false;
+	return (names.find(n) == names.end());
 }
 
 set<reactionrule *> bigraph::get_rules() {
