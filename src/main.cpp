@@ -161,7 +161,7 @@ int main(int argc, char**argv) {
 	global_cfg.debug = false;
 	global_cfg.verbose_level = 0;
 	global_cfg.max_steps = 1000;
-	global_cfg.report_interval = 500;
+	global_cfg.report_interval = 0;
 	global_cfg.graph_out = NULL; 
 	global_cfg.check_local = false;
 	global_cfg.threads = 2;

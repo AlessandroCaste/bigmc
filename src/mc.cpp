@@ -168,6 +168,13 @@ string mc::report_int(int step) {
 	return out.str();
 }
 
+// This shows info without writing anything to file
+string mc::report_no_print(int step){
+	stringstream out;
+	rinfo("bigmc::report") << "[Workqueue size: " << workqueue.size() << " / Graph size: " << g->size() << "] Number of steps : " << step << endl;
+	return out.str();
+}
+
 // returns true while there is work to do
 bool mc::step(int id) {
 	if(steps >= global_cfg.max_steps) {
@@ -332,9 +339,10 @@ bool mc::step(int id) {
 
 	match_gc();
 
-	if(global_cfg.report_interval > 0 && step % global_cfg.report_interval == 0) {
-		cout << report_int(step);
-	}
+	if(global_cfg.report_interval > 0 && step % global_cfg.report_interval == 0) 
+			cout << report_int(step);
+	else if(global_cfg.report_interval == 0 && step % 500 == 0)
+			cout << report_no_print(step);
 
 	if(global_cfg.print_mode) {
 		cout << step << ": " << n->bg->get_root(0)->to_string() << endl;

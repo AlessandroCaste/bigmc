@@ -38,6 +38,7 @@ public:
 	static string log;
 	string report(int step);
 	string report_int(int step);
+	string report_no_print(int step);
 	bool step(int tid);
 	static void add_property(string s, query *q);
 	void check_properties(node *n);
