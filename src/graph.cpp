@@ -211,7 +211,7 @@ stringstream graph::graphPrinting(){
 	stringstream coda;
 
 	if(root->bg->has_properties())
-		out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled,synkrisis=\"" << root->bg->get_properties() << "\", label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
+		out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled,synkrisistag=\"" << root->bg->get_properties() << "\", label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
 	else
 		out << "   N_" << root->hash << " [shape=rectangle, color=lightblue2, style=filled, label=\"" << root->bg->get_root(0)->to_string() << "\"];" << endl;
 
@@ -225,7 +225,7 @@ stringstream graph::graphPrinting(){
 		string properties;
 
 		if((*i)->bg->has_properties())
-			properties = "synkrisis=\"" + (*i)->bg->get_properties() + "\",";
+			properties = "synkrisistag=\"" + (*i)->bg->get_properties() + "\",";
 		else
 			properties = "";
 
